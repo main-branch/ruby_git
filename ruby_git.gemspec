@@ -11,6 +11,8 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'A Ruby library to work with Git Worktrees and Respositories'
   spec.description   = <<~DESCRIPTION
+    THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE
+
     An object-oriented interface to working with Git Worktrees and Repositories that
     tries to make sense out of the Git command line.
   DESCRIPTION
