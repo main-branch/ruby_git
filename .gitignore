@@ -12,3 +12,5 @@
 
 # Rubocop
 rubocop-report.json
+
+/Gemfile.lock
