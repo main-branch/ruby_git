@@ -1,5 +1,7 @@
 # Ruby Git
 
+**THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
+
 [![Build Status](https://travis-ci.org/jcouball/ruby_git.svg?branch=main)](https://travis-ci.org/jcouball/ruby_git)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2d8d52a55d655b6a3def/maintainability)](https://codeclimate.com/github/jcouball/ruby_git/maintainability)
 
