@@ -1,11 +1,11 @@
-# Ruby Git
+# RubyGit
 
 **THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
 
 [![Build Status](https://travis-ci.org/jcouball/ruby_git.svg?branch=main)](https://travis-ci.org/jcouball/ruby_git)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2d8d52a55d655b6a3def/maintainability)](https://codeclimate.com/github/jcouball/ruby_git/maintainability)
 
-Ruby Git is an object-oriented wrapper for the `git` command line tool for working with Worktrees
+RubyGit is an object-oriented wrapper for the `git` command line tool for working with Worktrees
 and Repositories. It tries to make more sense out of the Git command line. 
 
 ## Installation
@@ -25,6 +25,16 @@ Or install it directly from the command line:
     $ gem install ruby_git
 
 ## Usage
+
+To configure RubyGit:
+
+```Ruby
+RubyGit.git.path = '/usr/local/bin/git'
+
+# Returns the user set path or searches for 'git' in ENV['PATH']
+RubyGit.git.path #=> '/usr/local/bin/git'
+RubyGit.git.version #=> [2,28,0]
+```
 
 To work with an existing Worktree:
 
