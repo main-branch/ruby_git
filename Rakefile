@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-task default: %i[spec bundle:audit rubocop yardstick verify_measurements yard build]
+task default: %i[spec bundle:audit rubocop yardstick:audit yardstick:coverage yard build]
 
 # Bundler Audit
 
@@ -20,13 +20,7 @@ require 'bump/tasks'
 
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new do |t|
-  t.rspec_opts = %w[
-    --require spec_helper.rb
-    --color
-    --format documentation
-  ]
-end
+RSpec::Core::RakeTask.new
 
 CLEAN << 'coverage'
 CLEAN << '.rspec_status'
@@ -55,14 +49,17 @@ end
 CLEAN << '.yardoc'
 CLEAN << 'doc'
 
-# yardstick
+# Yardstick
 
-require 'yardstick/rake/verify'
-Yardstick::Rake::Verify.new do |verify|
-  verify.threshold = 100
+desc 'Run yardstick to show missing YARD doc elements'
+task :'yardstick:audit' do
+  sh "yardstick 'lib/**/*.rb'"
 end
 
-desc 'Run yardstick to check yard docs'
-task :yardstick do
-  sh "yardstick 'lib/**/*.rb'"
+# Yardstick coverage
+
+require 'yardstick/rake/verify'
+
+Yardstick::Rake::Verify.new(:'yardstick:coverage') do |verify|
+  verify.threshold = 100
 end
