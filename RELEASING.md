@@ -16,9 +16,9 @@ version number and (2) update the CHANGELOG.md, and (3) tag the release.
   * Bump the version number
     * Version number is in lib/ruby_git/version.rb
     * Follow [Semantic Versioning](https://semver.org) guidelines
-    * `bundle exec bump patch` # bugfixes only
-    * `bundle exec bump minor` # bugfixes only
-    * `bundle exec bump major` # bugfixes only
+    * `bundle exec bump --no-commit patch` # backwards compatible bug fixes
+    * `bundle exec bump --no-commit minor` # backwards compatible new functionality
+    * `bundle exec bump --no-commit major` # incompatible API changes
     
   * Update CHANGELOG.md
     * `bundle exec rake changelog`
