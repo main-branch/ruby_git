@@ -26,8 +26,8 @@ module RubyGit
     #
     # @return [Pathname]
     #
-    # @raise [RuntimeError] A RuntimeError is raised when the path is not to an
-    #   existing executable file.
+    # @raise [RuntimeError] A RuntimeError is raised when the path does not refer
+    #   to an existing executable file.
     #
     def path=(path)
       new_path = Pathname.new(path)
@@ -64,7 +64,7 @@ module RubyGit
     # @return [Pathname] the path to the git binary found in the path
     #
     # @raise [RuntimeError] if either PATH is not set or an executable file
-    #   basename was not found on the path.
+    #   `basename` was not found on the path.
     #
     def self.default_path(basename: 'git')
       RubyGit::FileHelpers.which(basename) || raise("Could not find '#{basename}' in the PATH.")

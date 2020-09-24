@@ -17,9 +17,11 @@ version number, (2) update the CHANGELOG.md, and (3) tag the release.
     guidelines
   * Add a link in CHANGELOG.md to the release tag which will be created later
     in this guide
+  * `git add` these changes to the index, but do not commit them.
   * Create a new tag using [git-extras](https://github.com/tj/git-extras/blob/main/Commands.md#git-release)
     `git release` command
     * For example: `git release v1.1.0.pre1`
+    * This will create a commit for the tag and any changes in the index.
   * These should be the only changes in the PR
   * Get the PR reviewed, approved and merged to main.
 

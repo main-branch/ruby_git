@@ -59,7 +59,7 @@ request meets [the project's coding standards](#coding-standards).
 
 ## Coding standards
 
-In order to ensure high quality, all pull requests must meet these requirements:
+All pull requests must meet these requirements:
 
 ### 1 PR = 1 Commit
   * All commits for a PR must be squashed into one commit
@@ -76,14 +76,21 @@ In order to ensure high quality, all pull requests must meet these requirements:
 ### Documentation
   * New and updated public methods must have [YARD](https://yardoc.org/)
     documentation added to them
+      * [The YARD Cheatsheet](https://gist.github.com/thelastinuit/5984665e6ab69d3c0a413a03602c45be)
+        is a good reference
   * New and updated public facing features should be documented in the project's
     [README.md](README.md)
-  * All documentation must pass `yardstick` documentation analysis. 
+  * All documentation must pass `yardstick` documentation analysis
   * The documentation suite must maintain 100% documentation to pass
 
 ### Continuous Integration
   * All tests must pass in the project's [Travis CI](https://travis-ci.org/jcouball/ruby_git)
-    build before the pull request will be merged
+    build before the pull request will be merged.
+  * You can simulate what happens in the Travis CI build by running `bundle exec rake` in 
+    the projects root directory.
+
+### Other Design Guidelines
+  * Use keyword args with defaults instead of an opts hash
 
 ## Licensing
 
