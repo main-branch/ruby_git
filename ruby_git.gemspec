@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
     An object-oriented interface to working with Git Worktrees and Repositories that
     tries to make sense out of the Git command line.
   DESCRIPTION
-  spec.homepage = 'https://github.com/pages/jcouball/ruby_git/'
+  spec.homepage = 'https://github.com/jcouball/ruby_git/'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
   spec.requirements = [
     'Git 2.18.0 or later',
