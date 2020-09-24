@@ -10,20 +10,26 @@ and the new release version to be created is `1.1.0.pre1`.
 
 ## Prepare the release
 
-From a fork of ruby_git, create a PR containing changes to (1) bump the
-version number, (2) update the CHANGELOG.md, and (3) tag the release.
+On a branch (or fork) of ruby_git, create a PR containing changes to (1) bump the
+version number and (2) update the CHANGELOG.md, and (3) tag the release.
 
-  * Bump the version number in lib/ruby_git/version.rb following [Semantic Versioning](https://semver.org)
-    guidelines
-  * Add a link in CHANGELOG.md to the release tag which will be created later
-    in this guide
-  * `git add` these changes to the index, but do not commit them.
-  * Create a new tag using [git-extras](https://github.com/tj/git-extras/blob/main/Commands.md#git-release)
-    `git release` command
-    * For example: `git release v1.1.0.pre1`
-    * This will create a commit for the tag and any changes in the index.
-  * These should be the only changes in the PR
-  * Get the PR reviewed, approved and merged to main.
+  * Bump the version number
+    * Version number is in lib/ruby_git/version.rb
+    * Follow [Semantic Versioning](https://semver.org) guidelines
+    * `bundle exec bump patch` # bugfixes only
+    * `bundle exec bump minor` # bugfixes only
+    * `bundle exec bump major` # bugfixes only
+    
+  * Update CHANGELOG.md
+    * `bundle exec rake changelog`
+
+  * Stage the changes to be committed
+    * `git add lib/ruby_git/version.rb CHANGELOG.md`
+
+  * Commit, tag, and push changes to the repository
+    * ```git release `ruby -I lib -r ruby_git -e 'puts RubyGit::VERSION'` ```
+
+  * Create a PR with these changes, have it reviewed and approved, and merged to main.
 
 ## Create a GitHub release
 
@@ -32,14 +38,8 @@ select `Draft a new release`
 
   * Select the tag corresponding to the version being released `v1.1.0.pre1`
   * The Target should be `main`
-  * For the release description, use the output of [changelog-rs](https://github.com/perlun/changelog-rs)
-    * Since the release has not been created yet, you will need to supply
-      `changeling-rs` with the current release tag and the tag the new release
-      is being created from
-    * For example: `changelog-rs . v1.0.0 v1.1.0.pre1`
-    * Copy the output, omitting the tag header `## v1.1.0.pre1` and paste into
-      the release description
-    * The release description can be edited later if needed
+  * For the release description, copy the relevant section from the CHANGELOG.md
+    * The release description can be edited later.
   * Select the appropriate value for `This is a pre-release`
     * Since `v1.1.0.pre1` is a pre-release, check `This is a pre-release`
 
