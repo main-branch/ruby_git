@@ -27,7 +27,7 @@ version number and (2) update the CHANGELOG.md, and (3) tag the release.
     * `git add lib/ruby_git/version.rb CHANGELOG.md`
 
   * Commit, tag, and push changes to the repository
-    * ```git release `ruby -I lib -r ruby_git -e 'puts RubyGit::VERSION'` ```
+    * ```git release v`ruby -I lib -r ruby_git -e 'puts RubyGit::VERSION'` ```
 
   * Create a PR with these changes, have it reviewed and approved, and merged to main.
 

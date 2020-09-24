@@ -1,8 +1,24 @@
 # Change Log
 
+## [v0.1.3](https://github.com/jcouball/ruby_git/releases/tag/v0.1.3) (2020-09-24)
+
+[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.2...v0.1.3)
+
+**Merged pull requests:**
+
+- Add Gem badge and correct home page URL [\#10](https://github.com/jcouball/ruby_git/pull/10) ([jcouball](https://github.com/jcouball))
+
 ## [v0.1.2](https://github.com/jcouball/ruby_git/releases/tag/v0.1.2) (2020-09-24)
 
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.1...v0.1.2)
+[Full Changelog](https://github.com/jcouball/ruby_git/compare/0.1.2...v0.1.2)
+
+**Merged pull requests:**
+
+- Release v0.1.2 [\#9](https://github.com/jcouball/ruby_git/pull/9) ([jcouball](https://github.com/jcouball))
+
+## [0.1.2](https://github.com/jcouball/ruby_git/releases/tag/0.1.2) (2020-09-24)
+
+[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.1...0.1.2)
 
 **Merged pull requests:**
 
