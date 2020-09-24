@@ -18,7 +18,12 @@ Gem::Specification.new do |spec|
   DESCRIPTION
   spec.homepage = 'https://github.com/pages/jcouball/ruby_git/'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
-  spec.requirements = ['git 2.18.0 or later']
+  spec.requirements = [
+    'Git 2.18.0 or later',
+    'Ruby 2.6 or later',
+    'Only MRI Ruby and JRuby are officially supported.',
+    'Mac, Linux, Unix, and Windows platforms are supported'
+  ]
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
