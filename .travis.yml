@@ -1,11 +1,24 @@
 ---
 language: ruby
+
+env:
+  global:
+    secure: SSSOEixn3ZAtlFmDyczVFAn/a7r+oWt2Ji+CZsRyn3jaXGx27kv0jGVWiTEAjjdEpIjoTSGMoagkP2b0o/+G2ZJgWdlZrLZBI16vmQy/OK386aENKseVsWlH3L6FxDAMDOeK8jRMZEPZWBjfK3MbtG2sfTDqA+kxi1VradFRE/YeLaES8AefbqZvXQgsg9CpLw1rBJTjAxduHVmjS23KY26eNy7wu7Pun4kwHOfmYsT7B/9Dbe9TvB3j01mYHBDbHGK8I+i8qLxU9whB9YhvitgnAY7nvH6aiOTaMKwz81Pr16SdQV+IayG+0dZoY81smSwCjlDdWg9+m/3HtcwU6TAbFCo1TGqQiF6zcvlT3P7hKUEJeCdptXtQuf9PVIjU4AIB1CXAIz2sqWoqRSArAzRmLMjho8RW9Nv7JGz6tN2DCyBOa2G5/+y0knkd8zdXvslCMeBjMn+yf6Ot7NZe4ItTT6YMUqb+Sp3CZzXZtkUqZNYC7BtWn+hLZYj/J48tKYLbFY8wQZ/WswWK9V5SqOuGmIKl/vcLF0DMPcsVotTCvU5Masl+GjBjuzyyGRWViF6qcMXW1QFbuTiQxrF1Gz4jVPL7OA4lflpSOWub+bKzeca71VF8QuFC/pIJoNsnMu39TtCbFhHB7H1NOfqsC63XiWx3JJj/a8d/Z7U5qb8=
+
 cache: bundler
 
 rvm:
   - 2.6
   - 2.7
   - ruby-head
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 matrix:
   allow_failures:
