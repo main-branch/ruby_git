@@ -3,8 +3,8 @@
 **THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
 
 [![Gem Version](https://badge.fury.io/rb/ruby_git.svg)](https://badge.fury.io/rb/ruby_git)
-[![Build Status](https://travis-ci.org/jcouball/ruby_git.svg?branch=main)](https://travis-ci.org/jcouball/ruby_git)
-[![Maintainability](https://api.codeclimate.com/v1/badges/2d8d52a55d655b6a3def/maintainability)](https://codeclimate.com/github/jcouball/ruby_git/maintainability)
+[![Build Status](https://travis-ci.org/main-branch/ruby_git.svg?branch=main)](https://travis-ci.org/main-branch/ruby_git)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/maintainability)](https://codeclimate.com/github/main-branch/ruby_git/maintainability)
 
 RubyGit is an object-oriented wrapper for the `git` command line tool for working with Worktrees
 and Repositories. It tries to make more sense out of the Git command line. See the object model
@@ -65,7 +65,7 @@ To tell what version of Git is being used:
 puts RubyGit.git_version
 ```
 
-The full API is documented in [the RubyGit YARD documentation](https://github.com/pages/jcouball/ruby_git).
+The full API is documented in [the RubyGit YARD documentation](https://github.com/pages/main-branch/ruby_git).
 
 ## Development
 
@@ -77,4 +77,4 @@ automatically requires ruby_git.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jcouball/ruby_git.
+Bug reports and pull requests are welcome on GitHub at https://github.com/main-branch/ruby_git.

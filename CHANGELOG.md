@@ -1,45 +1,45 @@
 # Change Log
 
-## [v0.1.3](https://github.com/jcouball/ruby_git/releases/tag/v0.1.3) (2020-09-24)
+## [v0.1.3](https://github.com/main-branch/ruby_git/releases/tag/v0.1.3) (2020-09-24)
 
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.2...v0.1.3)
-
-**Merged pull requests:**
-
-- Add Gem badge and correct home page URL [\#10](https://github.com/jcouball/ruby_git/pull/10) ([jcouball](https://github.com/jcouball))
-
-## [v0.1.2](https://github.com/jcouball/ruby_git/releases/tag/v0.1.2) (2020-09-24)
-
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/0.1.2...v0.1.2)
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.2...v0.1.3)
 
 **Merged pull requests:**
 
-- Release v0.1.2 [\#9](https://github.com/jcouball/ruby_git/pull/9) ([jcouball](https://github.com/jcouball))
+- Add Gem badge and correct home page URL [\#10](https://github.com/main-branch/ruby_git/pull/10) ([jcouball](https://github.com/jcouball))
 
-## [0.1.2](https://github.com/jcouball/ruby_git/releases/tag/0.1.2) (2020-09-24)
+## [v0.1.2](https://github.com/main-branch/ruby_git/releases/tag/v0.1.2) (2020-09-24)
 
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.1...0.1.2)
-
-**Merged pull requests:**
-
-- Update instructions for creating releases and updating the changelog [\#8](https://github.com/jcouball/ruby_git/pull/8) ([jcouball](https://github.com/jcouball))
-- Changes requested in documentation review [\#7](https://github.com/jcouball/ruby_git/pull/7) ([jcouball](https://github.com/jcouball))
-- Set and retrieve the path to the git binary used by this library [\#6](https://github.com/jcouball/ruby_git/pull/6) ([jcouball](https://github.com/jcouball))
-- Move RSpec config from Rakefile to .rspec [\#5](https://github.com/jcouball/ruby_git/pull/5) ([jcouball](https://github.com/jcouball))
-- Release v0.1.1 [\#4](https://github.com/jcouball/ruby_git/pull/4) ([jcouball](https://github.com/jcouball))
-
-## [v0.1.1](https://github.com/jcouball/ruby_git/releases/tag/v0.1.1) (2020-09-18)
-
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/v0.1.0...v0.1.1)
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/0.1.2...v0.1.2)
 
 **Merged pull requests:**
 
-- Add notice saying that this project is a work in progress [\#3](https://github.com/jcouball/ruby_git/pull/3) ([jcouball](https://github.com/jcouball))
-- Remove Gemfile.lock and add it to .gitignore [\#2](https://github.com/jcouball/ruby_git/pull/2) ([jcouball](https://github.com/jcouball))
+- Release v0.1.2 [\#9](https://github.com/main-branch/ruby_git/pull/9) ([jcouball](https://github.com/jcouball))
 
-## [v0.1.0](https://github.com/jcouball/ruby_git/releases/tag/v0.1.0) (2020-09-18)
+## [0.1.2](https://github.com/main-branch/ruby_git/releases/tag/0.1.2) (2020-09-24)
 
-[Full Changelog](https://github.com/jcouball/ruby_git/compare/04b4b2bc59b0b09ad45a69572450cb393dbe79a1...v0.1.0)
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.1...0.1.2)
+
+**Merged pull requests:**
+
+- Update instructions for creating releases and updating the changelog [\#8](https://github.com/main-branch/ruby_git/pull/8) ([jcouball](https://github.com/jcouball))
+- Changes requested in documentation review [\#7](https://github.com/main-branch/ruby_git/pull/7) ([jcouball](https://github.com/jcouball))
+- Set and retrieve the path to the git binary used by this library [\#6](https://github.com/main-branch/ruby_git/pull/6) ([jcouball](https://github.com/jcouball))
+- Move RSpec config from Rakefile to .rspec [\#5](https://github.com/main-branch/ruby_git/pull/5) ([jcouball](https://github.com/jcouball))
+- Release v0.1.1 [\#4](https://github.com/main-branch/ruby_git/pull/4) ([jcouball](https://github.com/jcouball))
+
+## [v0.1.1](https://github.com/main-branch/ruby_git/releases/tag/v0.1.1) (2020-09-18)
+
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.0...v0.1.1)
+
+**Merged pull requests:**
+
+- Add notice saying that this project is a work in progress [\#3](https://github.com/main-branch/ruby_git/pull/3) ([jcouball](https://github.com/jcouball))
+- Remove Gemfile.lock and add it to .gitignore [\#2](https://github.com/main-branch/ruby_git/pull/2) ([jcouball](https://github.com/jcouball))
+
+## [v0.1.0](https://github.com/main-branch/ruby_git/releases/tag/v0.1.0) (2020-09-18)
+
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/04b4b2bc59b0b09ad45a69572450cb393dbe79a1...v0.1.0)
 
 
 

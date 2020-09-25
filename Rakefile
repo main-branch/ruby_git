@@ -70,9 +70,9 @@ require 'github_changelog_generator/task'
 
 GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.header = '# Change Log'
-  config.user = 'jcouball'
+  config.user = 'main-branch'
   config.project = 'ruby_git'
   config.future_release = "v#{RubyGit::VERSION}"
-  config.release_url = 'https://github.com/jcouball/ruby_git/releases/tag/%s'
+  config.release_url = 'https://github.com/main-branch/ruby_git/releases/tag/%s'
   config.author = true
 end

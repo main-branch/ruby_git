@@ -33,7 +33,7 @@ version number and (2) update the CHANGELOG.md, and (3) tag the release.
 
 ## Create a GitHub release
 
-On [the ruby_git releases page](https://github.com/jcouball/ruby_git/releases),
+On [the ruby_git releases page](https://github.com/main-branch/ruby_git/releases),
 select `Draft a new release`
 
   * Select the tag corresponding to the version being released `v1.1.0.pre1`
@@ -45,7 +45,7 @@ select `Draft a new release`
 
 ## Build and release the gem
 
-Clone [jcouball/ruby_git](https://github.com/jcouball/ruby_git) directly (not a
+Clone [main-branch/ruby_git](https://github.com/main-branch/ruby_git) directly (not a
 fork) and ensure your local working copy is on the main branch
 
   * Verify that you are not on a fork with the command `git remote -v`

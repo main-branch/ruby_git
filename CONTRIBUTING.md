@@ -20,7 +20,7 @@ You can contribute in two ways:
 ruby_git utilizes [GitHub Issues](https://help.github.com/en/github/managing-your-work-on-github/about-issues)
 for issue tracking and feature requests.
 
-Report an issue or feature request by [creating a ruby_git Github issue](https://github.com/jcouball/ruby_git/issues/new).
+Report an issue or feature request by [creating a ruby_git Github issue](https://github.com/main-branch/ruby_git/issues/new).
 Fill in the template to describe the issue or feature request the best you can.
 
 ## How to submit a code or documentation change
@@ -84,7 +84,7 @@ All pull requests must meet these requirements:
   * The documentation suite must maintain 100% documentation to pass
 
 ### Continuous Integration
-  * All tests must pass in the project's [Travis CI](https://travis-ci.org/jcouball/ruby_git)
+  * All tests must pass in the project's [Travis CI](https://travis-ci.org/main-branch/ruby_git)
     build before the pull request will be merged.
   * You can simulate what happens in the Travis CI build by running `bundle exec rake` in 
     the projects root directory.
