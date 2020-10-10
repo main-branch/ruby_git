@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/main-branch/ruby_git.svg?branch=main)](https://travis-ci.org/main-branch/ruby_git)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/maintainability)](https://codeclimate.com/github/main-branch/ruby_git/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/test_coverage)](https://codeclimate.com/github/main-branch/ruby_git/test_coverage)
+[![Slack](https://img.shields.io/badge/slack-main--branch/ruby__git-yellow.svg?logo=slack)](https://main-branch.slack.com/archives/C01CHR7TMM2)
 
 RubyGit is an object-oriented wrapper for the `git` command line tool for working with Worktrees
 and Repositories. It tries to make more sense out of the Git command line. See the object model
