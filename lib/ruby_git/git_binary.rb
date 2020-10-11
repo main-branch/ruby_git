@@ -11,8 +11,8 @@ module RubyGit
     # @example
     #   GitBinary.new
     #
-    def initialize
-      @path = nil
+    def initialize(path = nil)
+      @path = Pathname.new(path) unless path.nil?
     end
 
     # Sets the path to the git binary
@@ -85,6 +85,22 @@ module RubyGit
       output = `#{path} --version`
       version = output[/\d+\.\d+(\.\d+)+/]
       version.split('.').collect(&:to_i)
+    end
+
+    # Return the path as a string
+    #
+    # @example
+    #   git = RubyGit::GitBinary.new('/usr/bin/git')
+    #   git.to_s
+    #    => '/usr/bin/git'
+    #
+    # @return [String] the path to the binary
+    #
+    # @raise [RuntimeError] if path was not set via `path=` and either PATH is not set
+    #   or git was not found on the path.
+    #
+    def to_s
+      path.to_s
     end
   end
 end
