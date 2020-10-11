@@ -12,7 +12,7 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
-# The DSL for RSpec and the gemspec file make it very hard to limit block length:
+# The DSL for RSpec makes it very hard to limit block length:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*_spec.rb"
