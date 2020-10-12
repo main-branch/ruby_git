@@ -1,5 +1,18 @@
 # Change Log
 
+## [v0.2.0](https://github.com/main-branch/ruby_git/releases/tag/v0.2.0) (2020-10-12)
+
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.3...v0.2.0)
+
+**Merged pull requests:**
+
+- Add Worktree class and creation methods init, clone, and open [\#17](https://github.com/main-branch/ruby_git/pull/17) ([jcouball](https://github.com/jcouball))
+- Add Slack badge to README [\#16](https://github.com/main-branch/ruby_git/pull/16) ([jcouball](https://github.com/jcouball))
+- Push code coverage information to CodeClimate [\#14](https://github.com/main-branch/ruby_git/pull/14) ([jcouball](https://github.com/jcouball))
+- Move the ruby\_git repository to the main-branch GitHub organization. [\#13](https://github.com/main-branch/ruby_git/pull/13) ([jcouball](https://github.com/jcouball))
+- Add CODEOWNERS file [\#12](https://github.com/main-branch/ruby_git/pull/12) ([jcouball](https://github.com/jcouball))
+- Release v0.1.3 [\#11](https://github.com/main-branch/ruby_git/pull/11) ([jcouball](https://github.com/jcouball))
+
 ## [v0.1.3](https://github.com/main-branch/ruby_git/releases/tag/v0.1.3) (2020-09-24)
 
 [Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.2...v0.1.3)
@@ -10,18 +23,11 @@
 
 ## [v0.1.2](https://github.com/main-branch/ruby_git/releases/tag/v0.1.2) (2020-09-24)
 
-[Full Changelog](https://github.com/main-branch/ruby_git/compare/0.1.2...v0.1.2)
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.1...v0.1.2)
 
 **Merged pull requests:**
 
 - Release v0.1.2 [\#9](https://github.com/main-branch/ruby_git/pull/9) ([jcouball](https://github.com/jcouball))
-
-## [0.1.2](https://github.com/main-branch/ruby_git/releases/tag/0.1.2) (2020-09-24)
-
-[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.1.1...0.1.2)
-
-**Merged pull requests:**
-
 - Update instructions for creating releases and updating the changelog [\#8](https://github.com/main-branch/ruby_git/pull/8) ([jcouball](https://github.com/jcouball))
 - Changes requested in documentation review [\#7](https://github.com/main-branch/ruby_git/pull/7) ([jcouball](https://github.com/jcouball))
 - Set and retrieve the path to the git binary used by this library [\#6](https://github.com/main-branch/ruby_git/pull/6) ([jcouball](https://github.com/jcouball))
