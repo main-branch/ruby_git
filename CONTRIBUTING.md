@@ -46,8 +46,8 @@ Follow the instructions in the pull request template.
 
 Code review takes place in a GitHub pull request using the [the Github pull request review feature](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-reviews).
 
-Once your pull request is ready for review, request a review from at least one
-[maintainer](MAINTAINERS.md) and any number of other contributors.
+Once your pull request is ready for review, request a review from at least one of the
+[code owners](https://github.com/orgs/main-branch/teams/ruby_git-codeowners/members).
 
 During the review process, you may need to make additional commits which would
 need to be squashed.  It may also be necessary to rebase to main again if other
