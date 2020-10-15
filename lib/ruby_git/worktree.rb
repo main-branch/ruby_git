@@ -76,7 +76,7 @@ module RubyGit
     #    => "/Users/jsmith"
     #   worktree = Worktree.clone('https://github.com/main-branch/ruby_git.git')
     #   worktree.path
-    #     => "/Users/jsmith/ruby_git"
+    #    => "/Users/jsmith/ruby_git"
     #
     # @example Using a specified worktree_path
     #   FileUtils.pwd
@@ -84,7 +84,7 @@ module RubyGit
     #   worktree_path = '/tmp/project'
     #   worktree = Worktree.clone('https://github.com/main-branch/ruby_git.git', to_path: worktree_path)
     #   worktree.path
-    #     => "/tmp/project"
+    #    => "/tmp/project"
     #
     # @param [String] repository_url a reference to a Git repository
     #
@@ -110,6 +110,7 @@ module RubyGit
 
     # Create a Worktree object
     # @api private
+    #
     def initialize(worktree_path)
       raise RubyGit::Error, "Path '#{worktree_path}' not valid." unless File.directory?(worktree_path)
 
