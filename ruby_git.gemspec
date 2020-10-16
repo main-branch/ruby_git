@@ -40,6 +40,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_runtime_dependency 'null-logger', '~> 0.1'
+
   spec.add_development_dependency 'bump', '~> 0.9'
   spec.add_development_dependency 'bundler-audit', '~> 0.7'
   spec.add_development_dependency 'github_changelog_generator', '~> 1.15'

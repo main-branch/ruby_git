@@ -1,10 +1,25 @@
 # frozen_string_literal: true
 
 require 'tmpdir'
+require 'logger'
 
 RSpec.describe RubyGit do
   it 'should have a version number' do
     expect(RubyGit::VERSION).not_to be nil
+  end
+
+  describe '.logger' do
+    subject { described_class.logger }
+
+    context 'when a logger has not be set' do
+      it { is_expected.to be_kind_of(NullLogger) }
+    end
+
+    context 'when a logger has been set' do
+      let(:logger) { Logger.new($stdout, level: Logger::DEBUG) }
+      before { RubyGit.logger = logger }
+      it { is_expected.to eq(logger) }
+    end
   end
 
   describe '.git_binary' do
