@@ -6,6 +6,8 @@ require 'ruby_git/git_binary'
 require 'ruby_git/version'
 require 'ruby_git/worktree'
 
+require 'null_logger'
+
 # RubyGit is an object-oriented wrapper for the `git` command line tool for
 # working with Worktrees and Repositories. It tries to make more sense out
 # of the Git command line.
@@ -13,18 +15,44 @@ require 'ruby_git/worktree'
 # @api public
 #
 module RubyGit
-  # Return information about the git binary used by this library
-  #
-  # Use this object to set the path to the git binary to use or to see the
-  # path being used.
-  #
-  # @example Setting the git binary path
-  #    RubyGit.git.path = '/usr/local/bin/git'
-  #
-  # @return [RubyGit::GitBinary]
-  #
-  def self.git
-    (@git ||= RubyGit::GitBinary.new)
+  @git = RubyGit::GitBinary.new
+
+  class << self
+    # Information about the git binary used by the RubyGit gem
+    #
+    # Use this object to set the path to the git binary to use or to see the
+    # path being used.
+    #
+    # @example Setting the git binary path
+    #   RubyGit.git.path = '/usr/local/bin/git'
+    #
+    # @return [RubyGit::GitBinary] the git binary object
+    #
+    attr_reader :git
+  end
+
+  @logger = NullLogger.new
+
+  class << self
+    # The logger used by the RubyGit gem
+    #
+    # The default value is a NullLogger
+    #
+    # @example Using the logger
+    #   RubyGit.logger.debug('Debug message')
+    #
+    # @example Setting the logger
+    #   require 'logger'
+    #   require 'stringio'
+    #   log_device = StringIO.new
+    #   RubyGit.logger = Logger.new(log_device, level: Logger::DEBUG)
+    #   RubyGit.logger.debug('Debug message')
+    #   log_device.string.include?('Debug message')
+    #    => true
+    #
+    # @return [Logger] the logger used by the RubyGit gem
+    #
+    attr_accessor :logger
   end
 
   # Create an empty Git repository under the root worktree `path`

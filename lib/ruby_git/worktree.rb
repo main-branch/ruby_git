@@ -115,6 +115,7 @@ module RubyGit
       raise RubyGit::Error, "Path '#{worktree_path}' not valid." unless File.directory?(worktree_path)
 
       @path = root_path(worktree_path)
+      RubyGit.logger.debug("Created #{inspect}")
     end
 
     # Find the root path of a worktree containing `path`
