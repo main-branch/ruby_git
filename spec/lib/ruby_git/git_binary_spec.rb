@@ -7,148 +7,67 @@ RSpec.describe RubyGit::GitBinary do
     let(:git_binary) { described_class.new }
 
     describe '.default_path' do
-      context 'with no basename' do
-        subject { described_class.default_path }
-        let(:dir) { Dir.mktmpdir }
-        after { FileUtils.rm_rf dir }
+      let(:root_dir) { Dir.mktmpdir }
+      after { FileUtils.rm_rf root_dir }
 
-        context "when 'git' is not in the path" do
+      context 'with no basename' do
+        subject { described_class.default_path(path: path, path_ext: path_ext) }
+        let(:path) { root_dir }
+        let(:path_ext) { nil }
+        let(:basename) { 'git' }
+
+        context "and 'git' is not in the path" do
           it 'should raise a RuntimeError' do
-            saved_env = ENV.to_hash
-            begin
-              ENV.replace({ 'PATH' => dir })
-              expect { subject }.to raise_error(RuntimeError)
-            ensure
-              ENV.replace(saved_env)
-            end
+            expect { subject }.to raise_error(RuntimeError)
           end
         end
 
-        context "when 'git' is in the path" do
-          it 'should return a Pathname to the the first executable file in the PATH whose basename is git' do
-            saved_env = ENV.to_hash
-            begin
-              ENV.replace({ 'PATH' => dir })
-              path = Pathname.new(File.join(dir, 'git'))
-              FileUtils.touch(path)
-              path.chmod(0o755)
-
-              expect(subject).to be_kind_of(Pathname)
-              expect(subject).to eq(path)
-            ensure
-              ENV.replace(saved_env)
-            end
+        context "and 'git' is in the path" do
+          let(:command_path) { File.join(path, basename) }
+          before do
+            FileUtils.touch(command_path)
+            FileUtils.chmod(755, command_path)
           end
+          it { is_expected.to eq(Pathname.new(command_path)) }
         end
       end
 
       context "with basename 'mygit'" do
-        basename = 'mygit'
-        subject { described_class.default_path(basename: basename) }
+        subject { described_class.default_path(basename: basename, path: path, path_ext: path_ext) }
+        let(:path) { root_dir }
+        let(:path_ext) { nil }
+        let(:basename) { 'mygit' }
 
-        context "and '#{basename}' is not in the PATH and 'git' is in the PATH" do
+        context "and 'mygit' is not in the path" do
           it 'should raise a RuntimeError' do
-            Dir.mktmpdir do |dir|
-              saved_env = ENV.to_hash
-              begin
-                ENV.replace({ 'PATH' => dir })
-
-                path = Pathname.new(File.join(dir, 'git'))
-                FileUtils.touch(path)
-                path.chmod(0o755)
-                expect { subject }.to raise_error(RuntimeError)
-              ensure
-                ENV.replace(saved_env)
-              end
-            end
+            expect { subject }.to raise_error(RuntimeError)
           end
         end
 
-        context "and '#{basename}' is in the PATH but not a file" do
-          it 'should raise a RuntimeError' do
-            Dir.mktmpdir do |dir|
-              saved_env = ENV.to_hash
-              begin
-                ENV.replace({ 'PATH' => dir })
-                path = Pathname.new(File.join(dir, basename))
-                FileUtils.mkdir(path)
-                path.chmod(0o755)
-                expect { subject }.to raise_error(RuntimeError)
-              ensure
-                ENV.replace(saved_env)
-              end
-            end
+        context "and 'mygit' is in the path" do
+          let(:command_path) { File.join(path, basename) }
+          before do
+            FileUtils.touch(command_path)
+            FileUtils.chmod(755, command_path)
           end
+          it { is_expected.to eq(Pathname.new(command_path)) }
         end
+      end
 
-        context "and '#{basename}' is in the PATH but not executable file" do
-          it 'should raise a RuntimeError' do
-            Dir.mktmpdir do |dir|
-              saved_env = ENV.to_hash
-              begin
-                ENV.replace({ 'PATH' => dir })
-                path = Pathname.new(File.join(dir, basename))
-                FileUtils.mkdir(path)
-                path.chmod(0o666)
-                expect { subject }.to raise_error(RuntimeError)
-              ensure
-                ENV.replace(saved_env)
-              end
-            end
-          end
-        end
+      context 'with path_ext that includes .EXE, .BAT, and .CMD' do
+        subject { described_class.default_path(basename: basename, path: path, path_ext: path_ext) }
+        let(:path) { root_dir }
+        let(:path_ext) { %w[.EXE .BAT .CMD].join(File::PATH_SEPARATOR) }
+        let(:basename) { 'git' }
 
-        context "and PATHEXT is '.exe;.com'" do
-          context "and '#{basename}.com' is an executable file in the path" do
-            it 'should not raise a RuntimeError' do
-              Dir.mktmpdir do |dir|
-                saved_env = ENV.to_hash
-                begin
-                  ENV.replace({ 'PATH' => dir, 'PATHEXT' => '.com;.exe' })
-                  path = Pathname.new(File.join(dir, "#{basename}.com"))
-                  FileUtils.touch(path)
-                  path.chmod(0o755)
-                  expect { subject }.not_to raise_error
-                ensure
-                  ENV.replace(saved_env)
-                end
-              end
-            end
+        context "and 'git.exe' is in the path" do
+          let(:command_path) { File.join(path, "#{basename}.EXE") }
+          before do
+            FileUtils.touch(command_path)
+            FileUtils.chmod(755, command_path)
           end
 
-          context "and '#{basename}.exe' is an executable file in the path" do
-            it 'should not raise a RuntimeError' do
-              Dir.mktmpdir do |dir|
-                saved_env = ENV.to_hash
-                begin
-                  ENV.replace({ 'PATH' => dir, 'PATHEXT' => '.com;.exe' })
-                  path = Pathname.new(File.join(dir, "#{basename}.exe"))
-                  FileUtils.touch(path)
-                  path.chmod(0o755)
-                  expect { subject }.not_to raise_error
-                ensure
-                  ENV.replace(saved_env)
-                end
-              end
-            end
-          end
-
-          context "when neither '#{basename}.com' or '#{basename}.exe' are an executable file in the path" do
-            it 'should raise a RuntimeError' do
-              Dir.mktmpdir do |dir|
-                saved_env = ENV.to_hash
-                begin
-                  ENV.replace({ 'PATH' => dir, 'PATHEXT' => '.com;.exe' })
-                  path = Pathname.new(File.join(dir, 'git.fubar'))
-                  FileUtils.touch(path)
-                  path.chmod(0o755)
-                  expect { subject }.to raise_error(RuntimeError)
-                ensure
-                  ENV.replace(saved_env)
-                end
-              end
-            end
-          end
+          it { is_expected.to eq(Pathname.new(command_path)) }
         end
       end
     end
