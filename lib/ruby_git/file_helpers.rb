@@ -10,12 +10,17 @@ module RubyGit
     #
     # Works for both Linux/Unix and Windows.
     #
-    # @example Searching over the PATH for a command
-    #   which_path = FileUtils.which('git')
+    # @example Searching over the ENV['PATH'] for a command
+    #   RubyGit::FileHelpers.which('git')
+    #    => #<Pathname:/usr/local/bin/git>
     #
-    # @example Overriding the default path
-    #   search_path = ['/usr/bin', '/usr/local/bin'].join(File::PATH_SEPARATOR)
-    #   which_path = FileUtils.which('git', path: '/usr/bin:/usr/local/bin')
+    # @example Overriding the default path (which is ENV['PATH'])
+    #   RubyGit::FileHelpers.which('git', path: '/usr/bin:/usr/local/bin')
+    #    => #<Pathname:/usr/bin/git>
+    #
+    # @example On Windows
+    #   RubyGit::FileHelpers.which('git', path: 'C:\Windows\System32;C:\Program Files\Git\bin')
+    #    => #<Pathname:C:/Program Files/Git/bin/git.exe>
     #
     # @param [String] cmd_basename The basename of the executable file to search for
     #

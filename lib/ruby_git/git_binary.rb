@@ -42,7 +42,8 @@ module RubyGit
     #
     # @example Get the git found on the PATH
     #   git = RubyGit::GitBinary.new
-    #   path = git.path
+    #   git.path
+    #    => #<Pathname:/usr/bin/git>
     #
     # @return [Pathname] the path to the git binary
     #
@@ -57,7 +58,8 @@ module RubyGit
     #
     # @example Find the pathname to `super_git`
     #   git = RubyGit::GitBinary.new
-    #   git.path = git.default_path(basename: 'super_git')
+    #   git.default_path(basename: 'super_git')
+    #    => #<Pathname:/usr/bin/super_git>
     #
     # @param [String] basename The basename of the git command
     #
@@ -75,7 +77,8 @@ module RubyGit
     #
     # @example for version 2.28.0
     #   git = RubyGit::GitBinary.new
-    #   puts git.version #=> [2,28,0]
+    #   git.version
+    #    => [2, 28, 0]
     #
     # @return [Array<Integer>] an array of integers representing the version.
     #
