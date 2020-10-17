@@ -70,7 +70,7 @@ All pull requests must meet these requirements:
 ### Unit tests
   * All changes must be accompanied by new or modified RSpec unit tests
   * The entire test suite must pass when `bundle exec rake spec` is run from the
-    project's local working copy
+    project's local working tree
   * The unit test suite must maintain 100% code coverage to pass 
 
 ### Documentation

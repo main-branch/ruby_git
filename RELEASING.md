@@ -46,7 +46,7 @@ select `Draft a new release`
 ## Build and release the gem
 
 Clone [main-branch/ruby_git](https://github.com/main-branch/ruby_git) directly (not a
-fork) and ensure your local working copy is on the main branch
+fork) and ensure your local working tree is on the main branch
 
   * Verify that you are not on a fork with the command `git remote -v`
   * Verify that the version number is correct by running `rake -T` and inspecting
