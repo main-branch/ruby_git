@@ -8,10 +8,34 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/test_coverage)](https://codeclimate.com/github/main-branch/ruby_git/test_coverage)
 [![Slack](https://img.shields.io/badge/slack-main--branch/ruby__git-yellow.svg?logo=slack)](https://main-branch.slack.com/archives/C01CHR7TMM2)
 
-RubyGit is an object-oriented wrapper for the `git` command line tool for working with Worktrees
-and Repositories. It tries to make more sense out of the Git command line. See the object model
-in [this Lucid chart diagram](https://app.lucidchart.com/invitations/accept/7df13bab-3383-4683-8cb4-e76d539de93d)
-(requires sign in).
+Git Is Hard™ but it doesn't have to be that way. Git has this reputation because it has an
+underlying model that is more complex than other popular revision control systems 
+such as CVS or Subversion. To make matters worse, the `git` command line is vast,
+inconsistently implemented, and does not have a clear mapping between the command-line
+actions and Git's underlying model.
+
+Because of this complexity, beginners tend to memorize a few `git` commands in
+order to get by with a simple workflow without really understanding how Git works
+and the rich set of features it offers.
+
+The RubyGit module provides a Ruby API that is an object-oriented wrapper around
+the `git` command line. It is intended to make automating both simple and complex Git
+interactions easier. To accomplish this, it ties each action you can do with `git` to
+the type of object that action operates on.
+
+There are three main objects in RubyGit:
+ * [WorkingTree](lib/ruby_git/working_tree.rb): The directory tree of actual checked
+   out files. The working tree normally contains the contents of the HEAD commit’s
+   tree, plus any local changes that you have made but not yet committed.
+ * [Index](lib/ruby_git/index.rb): The index is used as a staging area between your
+   working tree and your repository. You can use the index to build up a set of changes
+   that you want to commit together. When you create a commit, what is committed is what is
+   currently in the index, not what is in your working directory.
+ * [Repository](lib/ruby_git/repository.rb): The repository stores the files in a project,
+   their history, and other meta data like commit information, tags, and branches.
+
+The [RubyGit Class Diagram](RubyGit%20Class%20Diagram.svg) shows the main abstractions in
+RubyGit, how they are related, and what actions each can perform. 
 
 ## Installation
 
@@ -41,24 +65,24 @@ RubyGit.git.path #=> '/usr/local/bin/git'
 RubyGit.git.version #=> [2,28,0]
 ```
 
-To work with an existing Worktree:
+To work with an existing WorkingTree:
 
 ```Ruby
-worktree = RubyGit.open(worktree_path)
-worktree.append_to_file('README.md', 'New line in README.md')
-worktree.add('README.md')
-worktree.commit('Add a line to the README.md')
-worktree.push
+working_tree = RubyGit.open(working_tree_path)
+working_tree.append_to_file('README.md', 'New line in README.md')
+working_tree.add('README.md')
+working_tree.commit('Add a line to the README.md')
+working_tree.push
 ```
 
-To create a new Worktree:
+To create a new WorkingTree:
 
 ```Ruby
-worktree = RubyGit.init(worktree_path)
-worktree.write_to_file('README.md', '# My New Project')
-worktree.add('README.md')
-worktree.repository.add_remote(remote_name: 'origin', url: 'https://github.com/jcouball/test', default_branch: 'main')
-worktree.push(remote_name: 'origin')
+working_tree = RubyGit.init(working_tree_path)
+working_tree.write_to_file('README.md', '# My New Project')
+working_tree.add('README.md')
+working_tree.repository.add_remote(remote_name: 'origin', url: 'https://github.com/jcouball/test', default_branch: 'main')
+working_tree.push(remote_name: 'origin')
 ```
 
 To tell what version of Git is being used:
