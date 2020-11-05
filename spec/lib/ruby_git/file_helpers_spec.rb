@@ -19,16 +19,16 @@ RSpec.describe RubyGit::FileHelpers do
     end
 
     context "when path is '/usr/bin:/usr/local/bin' and path_ext is nil" do
-      let(:path_dir_1) { File.join(root_dir, 'usr', 'bin') }
-      let(:path_dir_2) { File.join(root_dir, 'usr', 'local', 'bin') }
-      let(:path) { [path_dir_1, path_dir_2].join(File::PATH_SEPARATOR) }
+      let(:path_dir1) { File.join(root_dir, 'usr', 'bin') }
+      let(:path_dir2) { File.join(root_dir, 'usr', 'local', 'bin') }
+      let(:path) { [path_dir1, path_dir2].join(File::PATH_SEPARATOR) }
 
       context 'and command is not found in the path' do
         it { is_expected.to be_nil }
       end
 
       context 'and /usr/local/bin/command is NOT an executable file' do
-        let(:command_dir) { path_dir_1 }
+        let(:command_dir) { path_dir1 }
         let(:command_path) { File.join(command_dir, command) }
         before do
           FileUtils.mkdir_p(command_dir)
@@ -39,7 +39,7 @@ RSpec.describe RubyGit::FileHelpers do
       end
 
       context 'and /usr/local/bin/command is a directory' do
-        let(:command_dir) { path_dir_1 }
+        let(:command_dir) { path_dir1 }
         let(:command_path) { File.join(command_dir, command) }
         before do
           FileUtils.mkdir_p(command_dir)
@@ -50,7 +50,7 @@ RSpec.describe RubyGit::FileHelpers do
       end
 
       context 'and /usr/bin/command is an executable file' do
-        let(:command_dir) { path_dir_1 }
+        let(:command_dir) { path_dir1 }
         let(:command_path) { File.join(command_dir, command) }
         before do
           FileUtils.mkdir_p(command_dir)
@@ -62,7 +62,7 @@ RSpec.describe RubyGit::FileHelpers do
       end
 
       context 'and /usr/local/bin/command is an executable file' do
-        let(:command_dir) { path_dir_2 }
+        let(:command_dir) { path_dir2 }
         let(:command_path) { File.join(command_dir, command) }
         before do
           FileUtils.mkdir_p(command_dir)
@@ -74,7 +74,7 @@ RSpec.describe RubyGit::FileHelpers do
       end
 
       context 'and /usr/local/bin/command is a symlink to an executable file' do
-        let(:command_dir) { path_dir_2 }
+        let(:command_dir) { path_dir2 }
         let(:command_path) { File.join(command_dir, command) }
         let(:actual_command_path) { File.join(command_dir, "actual_#{command}") }
         before do
@@ -88,33 +88,33 @@ RSpec.describe RubyGit::FileHelpers do
       end
 
       context 'and both /usr/bin/command and /usr/local/bin/command are executable files' do
-        let(:command_dir_1) { path_dir_1 }
-        let(:command_path_1) { File.join(command_dir_1, command) }
+        let(:command_dir1) { path_dir1 }
+        let(:command_path1) { File.join(command_dir1, command) }
         before do
-          FileUtils.mkdir_p(command_dir_1)
-          FileUtils.touch(command_path_1)
-          FileUtils.chmod(0o755, command_path_1)
+          FileUtils.mkdir_p(command_dir1)
+          FileUtils.touch(command_path1)
+          FileUtils.chmod(0o755, command_path1)
         end
 
-        let(:command_dir_2) { path_dir_2 }
-        let(:command_path_2) { File.join(command_dir_2, command) }
+        let(:command_dir2) { path_dir2 }
+        let(:command_path2) { File.join(command_dir2, command) }
         before do
-          FileUtils.mkdir_p(command_dir_2)
-          FileUtils.touch(command_path_2)
-          FileUtils.chmod(0o755, command_path_2)
+          FileUtils.mkdir_p(command_dir2)
+          FileUtils.touch(command_path2)
+          FileUtils.chmod(0o755, command_path2)
         end
 
-        it { is_expected.to eq(Pathname.new(command_path_1)) }
+        it { is_expected.to eq(Pathname.new(command_path1)) }
       end
 
       context "and path_ext is '.EXE:.BAT:.CMD'" do
-        let(:path_dir_1) { File.join(root_dir, 'usr', 'bin') }
-        let(:path_dir_2) { File.join(root_dir, 'usr', 'local', 'bin') }
-        let(:path) { [path_dir_1, path_dir_2].join(File::PATH_SEPARATOR) }
+        let(:path_dir1) { File.join(root_dir, 'usr', 'bin') }
+        let(:path_dir2) { File.join(root_dir, 'usr', 'local', 'bin') }
+        let(:path) { [path_dir1, path_dir2].join(File::PATH_SEPARATOR) }
         let(:path_ext) { %w[.EXE .BAT .CMD].join(File::PATH_SEPARATOR) }
 
         context 'and /usr/local/bin/command.BAT is an executable file' do
-          let(:command_dir) { path_dir_1 }
+          let(:command_dir) { path_dir1 }
           let(:command_path) { File.join(command_dir, "#{command}.BAT") }
           before do
             FileUtils.mkdir_p(command_dir)
