@@ -3,7 +3,7 @@
 **THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
 
 [![Gem Version](https://badge.fury.io/rb/ruby_git.svg)](https://badge.fury.io/rb/ruby_git)
-[![Build Status](https://travis-ci.org/main-branch/ruby_git.svg?branch=main)](https://travis-ci.org/main-branch/ruby_git)
+[![Build Status](https://github.com/main-branch/ruby_git/workflows/Ruby/badge.svg?branch=main)](https://github.com/main-branch/ruby_git/actions?query=workflow%3ARuby)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/maintainability)](https://codeclimate.com/github/main-branch/ruby_git/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/test_coverage)](https://codeclimate.com/github/main-branch/ruby_git/test_coverage)
 [![Slack](https://img.shields.io/badge/slack-main--branch/ruby__git-yellow.svg?logo=slack)](https://main-branch.slack.com/archives/C01CHR7TMM2)
