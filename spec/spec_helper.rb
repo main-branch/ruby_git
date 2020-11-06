@@ -19,10 +19,12 @@ SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 SimpleCov.start
 
 SimpleCov.at_exit do
-  SimpleCov.result.format!
-  if SimpleCov.result.covered_percent < 100
-    warn 'FAIL: RSpec Test coverage fell below 100%'
-    exit 1
+  unless RSpec.configuration.dry_run?
+    SimpleCov.result.format!
+    if SimpleCov.result.covered_percent < 100
+      warn 'FAIL: RSpec Test coverage fell below 100%'
+      exit 1
+    end
   end
 end
 
