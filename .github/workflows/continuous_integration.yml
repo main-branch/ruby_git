@@ -1,6 +1,6 @@
 # Download a prebuilt Ruby version, install dependencies, and run the default Rake task
 
-name: Ruby
+name: CI
 
 on:
   push:
@@ -11,12 +11,17 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby: ['2.6', '2.7', 'head']
+        operating-system: [ubuntu-latest]
+        include:
+          - ruby: 2.7
+            operating-system: windows-latest
 
-    name: Build on Ruby ${{ matrix.ruby }}
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.operating-system }}
+
+    runs-on: ${{ matrix.operating-system }}
 
     steps:
       - name: Checkout code
