@@ -56,6 +56,10 @@ RSpec.describe RubyGit::FileHelpers do
           FileUtils.mkdir_p(command_dir)
           FileUtils.touch(command_path)
           FileUtils.chmod(0o755, command_path)
+
+          puts "PATHEXT='#{ENV['PATHEXT']}'"
+          puts "command_path='#{command_path}'"
+          puts "command_path.executable?=#{FileTest.executable?(command_path)}"
         end
 
         it { is_expected.to eq(Pathname.new(command_path)) }
@@ -120,6 +124,10 @@ RSpec.describe RubyGit::FileHelpers do
             FileUtils.mkdir_p(command_dir)
             FileUtils.touch(command_path)
             FileUtils.chmod(0o755, command_path)
+
+            puts "PATHEXT='#{ENV['PATHEXT']}'"
+            puts "command_path='#{command_path}'"
+            puts "command_path.executable?=#{FileTest.executable?(command_path)}"
           end
 
           it { is_expected.to eq(Pathname.new(File.join(root_dir, '/usr/bin/command.BAT'))) }
