@@ -39,7 +39,7 @@ module RubyGit
     # @return [Pathname,nil] The path to the first executable file found on the path or
     #   nil an executable file was not found.
     #
-    def self.which(cmd_basename, path: ENV['PATH'], path_ext: ENV['PATHEXT'])
+    def self.which(cmd_basename, path: ENV.fetch('PATH', nil), path_ext: ENV.fetch('PATHEXT', nil))
       raise 'path can not be nil or empty' if path.nil? || path.empty?
 
       split_path(path)

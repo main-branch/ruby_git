@@ -68,8 +68,8 @@ module RubyGit
     # @raise [RuntimeError] if either PATH is not set or an executable file
     #   `basename` was not found on the path.
     #
-    def self.default_path(basename: 'git', path: ENV['PATH'], path_ext: ENV['PATHEXT'])
-      RubyGit::FileHelpers.which(basename, path: path, path_ext: path_ext) ||
+    def self.default_path(basename: 'git', path: ENV.fetch('PATH', nil), path_ext: ENV.fetch('PATHEXT', nil))
+      RubyGit::FileHelpers.which(basename, path:, path_ext:) ||
         raise("Could not find '#{basename}' in the PATH.")
     end
 

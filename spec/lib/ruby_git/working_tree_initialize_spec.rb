@@ -8,7 +8,7 @@ RSpec.describe RubyGit::WorkingTree do
   describe '.initialize' do
     subject { described_class.open(working_tree_path) }
     let(:tmpdir) { Dir.mktmpdir }
-    after { FileUtils.rm_rf(tmpdir) if File.exist?(tmpdir) }
+    after { FileUtils.rm_rf(tmpdir) }
 
     context 'with a valid working tree path' do
       let(:working_tree_path) { tmpdir }

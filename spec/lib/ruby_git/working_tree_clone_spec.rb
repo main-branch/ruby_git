@@ -21,8 +21,8 @@ RSpec.describe RubyGit::WorkingTree do
     let(:tmpdir) { Dir.mktmpdir }
     let(:repository_url) { make_bare_repository(Dir.mktmpdir) }
     after do
-      FileUtils.rm_rf(tmpdir) if File.exist?(tmpdir)
-      FileUtils.rm_rf(repository_url) if File.exist?(repository_url)
+      FileUtils.rm_rf(tmpdir)
+      FileUtils.rm_rf(repository_url)
     end
 
     context 'the url is not valid' do

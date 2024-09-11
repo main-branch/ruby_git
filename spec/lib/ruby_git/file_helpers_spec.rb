@@ -4,7 +4,7 @@ require 'tmpdir'
 
 RSpec.describe RubyGit::FileHelpers do
   describe '.which' do
-    subject { described_class.which(command, path: path, path_ext: path_ext) }
+    subject { described_class.which(command, path:, path_ext:) }
     let(:command) { 'command' }
     let(:path) { nil } # Equivalent to PATH not set in ENV
     let(:path_ext) { nil } # Equivalent to PATHEXT not set in ENV

@@ -11,7 +11,7 @@ RSpec.describe RubyGit::GitBinary do
       after { FileUtils.rm_rf root_dir }
 
       context 'with no basename' do
-        subject { described_class.default_path(path: path, path_ext: path_ext) }
+        subject { described_class.default_path(path:, path_ext:) }
         let(:path) { root_dir }
         let(:path_ext) { nil }
         let(:basename) { 'git' }
@@ -33,7 +33,7 @@ RSpec.describe RubyGit::GitBinary do
       end
 
       context "with basename 'mygit'" do
-        subject { described_class.default_path(basename: basename, path: path, path_ext: path_ext) }
+        subject { described_class.default_path(basename:, path:, path_ext:) }
         let(:path) { root_dir }
         let(:path_ext) { nil }
         let(:basename) { 'mygit' }
@@ -55,7 +55,7 @@ RSpec.describe RubyGit::GitBinary do
       end
 
       context 'with path_ext that includes .EXE, .BAT, and .CMD' do
-        subject { described_class.default_path(basename: basename, path: path, path_ext: path_ext) }
+        subject { described_class.default_path(basename:, path:, path_ext:) }
         let(:path) { root_dir }
         let(:path_ext) { %w[.EXE .BAT .CMD].join(File::PATH_SEPARATOR) }
         let(:basename) { 'git' }
@@ -250,7 +250,7 @@ RSpec.describe RubyGit::GitBinary do
       it 'should return the version returned from --version' do
         saved_env = ENV.to_hash
         begin
-          ENV.replace({ 'PATH' => "#{dir}:#{ENV['PATH']}" })
+          ENV.replace({ 'PATH' => "#{dir}:#{ENV.fetch('PATH', nil)}" })
           path = Pathname.new(File.join(dir, 'git'))
           File.write(path, <<~SCRIPT)
             #!/usr/bin/env sh

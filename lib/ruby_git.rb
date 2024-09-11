@@ -140,6 +140,6 @@ module RubyGit
   # @return [RubyGit::WorkingTree] the working tree checked out from the cloned repository
   #
   def self.clone(repository_url, to_path: '')
-    RubyGit::WorkingTree.clone(repository_url, to_path: to_path)
+    RubyGit::WorkingTree.clone(repository_url, to_path:)
   end
 end
