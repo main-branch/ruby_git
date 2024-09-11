@@ -17,10 +17,10 @@ Gem::Specification.new do |spec|
     tries to make sense out of the Git command line.
   DESCRIPTION
   spec.homepage = 'https://github.com/main-branch/ruby_git/'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
   spec.requirements = [
-    'Git 2.18.0 or later',
-    'Ruby 2.6 or later',
+    'Git 2.28.0 or later',
+    'Ruby 3.1 or later',
     'Only MRI Ruby and JRuby are officially supported.',
     'Mac, Linux, Unix, and Windows platforms are supported'
   ]
@@ -40,16 +40,16 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'null-logger', '~> 0.1'
+  spec.add_dependency 'null-logger', '~> 0.1'
 
-  spec.add_development_dependency 'bump', '~> 0.9'
-  spec.add_development_dependency 'bundler-audit', '~> 0.7'
-  spec.add_development_dependency 'github_changelog_generator', '~> 1.15'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'redcarpet', '~> 3.5'
-  spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'rubocop', '~> 1.0'
-  spec.add_development_dependency 'simplecov', '0.17.1'
+  spec.add_development_dependency 'bump', '~> 0.10'
+  spec.add_development_dependency 'bundler-audit', '~> 0.9'
+  spec.add_development_dependency 'rake', '~> 13.2'
+  spec.add_development_dependency 'redcarpet', '~> 3.6'
+  spec.add_development_dependency 'rspec', '~> 3.13'
+  spec.add_development_dependency 'rubocop', '~> 1.66'
+  spec.add_development_dependency 'simplecov', '0.17'
   spec.add_development_dependency 'yard', '~> 0.9'
   spec.add_development_dependency 'yardstick', '~> 0.9'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

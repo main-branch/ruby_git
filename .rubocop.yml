@@ -6,7 +6,7 @@ AllCops:
   ExtraDetails: true
   # RuboCop enforces rules depending on the oldest version of Ruby which
   # your project supports:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.1
 
 # The default max line length is 80 characters
 Layout/LineLength:
@@ -17,3 +17,6 @@ Metrics/BlockLength:
   Exclude:
     - "spec/**/*_spec.rb"
     - "*.gemspec"
+
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
