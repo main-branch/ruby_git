@@ -17,10 +17,6 @@ Bundler::Audit::Task.new
 require 'bundler'
 require 'bundler/gem_tasks'
 
-# Bump
-
-require 'bump/tasks'
-
 # RSpec
 
 require 'rspec/core/rake_task'

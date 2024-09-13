@@ -41,8 +41,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'null-logger', '~> 0.1'
 
-  spec.add_development_dependency 'bump', '~> 0.10'
   spec.add_development_dependency 'bundler-audit', '~> 0.9'
+  spec.add_development_dependency 'create_github_release', '~> 1.5'
   spec.add_development_dependency 'rake', '~> 13.2'
   spec.add_development_dependency 'rspec', '~> 3.13'
   spec.add_development_dependency 'rubocop', '~> 1.66'
