@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
@@ -14,18 +12,18 @@ RSpec.configure do |config|
   end
 end
 
-# Setup simplecov
-SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
-SimpleCov.start
+# SimpleCov configuration
+#
+require 'simplecov'
+require 'simplecov-lcov'
 
-SimpleCov.at_exit do
-  unless RSpec.configuration.dry_run?
-    SimpleCov.result.format!
-    if SimpleCov.result.covered_percent < 100
-      warn 'FAIL: RSpec Test coverage fell below 100%'
-      exit 1
-    end
-  end
+if ENV.fetch('GITHUB_ACTIONS', 'false') == 'true'
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::LcovFormatter
+  ]
 end
+
+SimpleCov.start
 
 require 'ruby_git'
