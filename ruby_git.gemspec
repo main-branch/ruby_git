@@ -19,10 +19,9 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/main-branch/ruby_git/'
   spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
   spec.requirements = [
-    'Git 2.28.0 or later',
-    'Ruby 3.1 or later',
-    'Only MRI Ruby and JRuby are officially supported.',
-    'Mac, Linux, Unix, and Windows platforms are supported'
+    'Platform: Mac, Linux, or Windows',
+    'Ruby: MRI 3.1 or later, TruffleRuby 24 or later, or JRuby 9.4 or later',
+    'Git 2.28.0 or later'
   ]
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
@@ -45,11 +44,17 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bump', '~> 0.10'
   spec.add_development_dependency 'bundler-audit', '~> 0.9'
   spec.add_development_dependency 'rake', '~> 13.2'
-  spec.add_development_dependency 'redcarpet', '~> 3.6'
   spec.add_development_dependency 'rspec', '~> 3.13'
   spec.add_development_dependency 'rubocop', '~> 1.66'
   spec.add_development_dependency 'simplecov', '0.17'
-  spec.add_development_dependency 'yard', '~> 0.9'
-  spec.add_development_dependency 'yardstick', '~> 0.9'
+  spec.add_development_dependency 'simplecov-lcov', '0.8'
+  spec.add_development_dependency 'simplecov-rspec', '0.2'
+
+  unless RUBY_PLATFORM == 'java'
+    spec.add_development_dependency 'redcarpet', '~> 3.6'
+    spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.28'
+    spec.add_development_dependency 'yardstick', '~> 0.9'
+  end
+
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
