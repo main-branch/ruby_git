@@ -16,14 +16,17 @@ end
 #
 require 'simplecov'
 require 'simplecov-lcov'
+require 'simplecov-rspec'
 
-if ENV.fetch('GITHUB_ACTIONS', 'false') == 'true'
+def ci_build? = ENV.fetch('GITHUB_ACTIONS', 'false') == 'true'
+
+if ci_build?
   SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::LcovFormatter
   ]
 end
 
-SimpleCov.start
+SimpleCov::RSpec.start(list_uncovered_lines: ci_build?)
 
 require 'ruby_git'
