@@ -2,4 +2,8 @@
 --hide-void-return
 --markup-provider=redcarpet
 --markup markdown
-- CHANGELOG.md CONTRIBUTING.md RELEASING.md LICENSE.md
+--exclude examples/**
+- CHANGELOG.md
+- CONTRIBUTING.md
+- RELEASING.md
+- LICENSE.txt
