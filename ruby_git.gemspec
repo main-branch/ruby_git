@@ -16,7 +16,6 @@ Gem::Specification.new do |spec|
     An object-oriented interface to working with Git Repositories that
     tries to make sense out of the Git command line.
   DESCRIPTION
-  spec.homepage = 'https://github.com/main-branch/ruby_git/'
   spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
   spec.requirements = [
     'Platform: Mac, Linux, or Windows',
@@ -26,9 +25,12 @@ Gem::Specification.new do |spec|
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
+  spec.homepage = "https://github.com/main-branch/#{spec.name}/"
+
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/main-branch/ruby_git/'
-  spec.metadata['changelog_uri'] = 'https://github.com/main-branch/ruby_git/blob/main/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = "https://rubydoc.info/gems/#{spec.name}/#{spec.version}/file/CHANGELOG.md"
+  spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{spec.name}/#{spec.version}"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
