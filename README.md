@@ -3,13 +3,15 @@
 **THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
 
 [![Gem Version](https://badge.fury.io/rb/ruby_git.svg)](https://badge.fury.io/rb/ruby_git)
-[![Build Status](https://github.com/main-branch/ruby_git/workflows/Ruby/badge.svg?branch=main)](https://github.com/main-branch/ruby_git/actions?query=workflow%3ARuby)
+[![Build Status](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml)
+[![Documentation](https://img.shields.io/badge/Documentation-Latest-green)](https://rubydoc.info/gems/ruby_git/)
+[![Change Log](https://img.shields.io/badge/CHANGELOG-Latest-green)](https://rubydoc.info/gems/ruby_git/file/CHANGELOG.md)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/maintainability)](https://codeclimate.com/github/main-branch/ruby_git/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/test_coverage)](https://codeclimate.com/github/main-branch/ruby_git/test_coverage)
 [![Slack](https://img.shields.io/badge/slack-main--branch/ruby__git-yellow.svg?logo=slack)](https://main-branch.slack.com/archives/C01CHR7TMM2)
 
 Git Is Hard™ but it doesn't have to be that way. Git has this reputation because it has an
-underlying model that is more complex than other popular revision control systems 
+underlying model that is more complex than other popular revision control systems
 such as CVS or Subversion. To make matters worse, the `git` command line is vast,
 inconsistently implemented, and does not have a clear mapping between the command-line
 actions and Git's underlying model.
@@ -35,7 +37,7 @@ There are three main objects in RubyGit:
    their history, and other meta data like commit information, tags, and branches.
 
 The [RubyGit Class Diagram](RubyGit%20Class%20Diagram.svg) shows the main abstractions in
-RubyGit, how they are related, and what actions each can perform. 
+RubyGit, how they are related, and what actions each can perform.
 
 ## Installation
 
