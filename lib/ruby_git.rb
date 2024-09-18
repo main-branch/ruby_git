@@ -6,7 +6,7 @@ require 'ruby_git/git_binary'
 require 'ruby_git/version'
 require 'ruby_git/working_tree'
 
-require 'null_logger'
+require 'logger'
 
 # The RubyGit module provides a Ruby API that is an object-oriented wrapper around
 # the `git` command line. It is intended to make automating both simple and complex Git
@@ -43,12 +43,12 @@ module RubyGit
     attr_reader :git
   end
 
-  @logger = NullLogger.new
+  @logger = Logger.new(File::NULL)
 
   class << self
     # The logger used by the RubyGit gem
     #
-    # The default value is a NullLogger
+    # The default value is a Logger that writes to `/dev/null`.
     #
     # @example Using the logger
     #   RubyGit.logger.debug('Debug message')
