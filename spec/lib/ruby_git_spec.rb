@@ -12,7 +12,7 @@ RSpec.describe RubyGit do
     subject { described_class.logger }
 
     context 'when a logger has not be set' do
-      it { is_expected.to be_kind_of(NullLogger) }
+      it { is_expected.to be_kind_of(Logger) }
     end
 
     context 'when a logger has been set' do

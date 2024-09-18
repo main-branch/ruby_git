@@ -41,8 +41,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'null-logger', '~> 0.1'
-
   spec.add_development_dependency 'bundler-audit', '~> 0.9'
   spec.add_development_dependency 'create_github_release', '~> 1.5'
   spec.add_development_dependency 'main_branch_shared_rubocop_config', '~> 0.1'
