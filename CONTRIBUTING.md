@@ -71,7 +71,7 @@ All pull requests must meet these requirements:
   * All changes must be accompanied by new or modified RSpec unit tests
   * The entire test suite must pass when `bundle exec rake spec` is run from the
     project's local working tree
-  * The unit test suite must maintain 100% code coverage to pass 
+  * The unit test suite must maintain 100% code coverage to pass
 
 ### Documentation
   * New and updated public methods must have [YARD](https://yardoc.org/)
@@ -86,7 +86,7 @@ All pull requests must meet these requirements:
 ### Continuous Integration
   * All tests must pass in the project's [Travis CI](https://travis-ci.org/main-branch/ruby_git)
     build before the pull request will be merged.
-  * You can simulate what happens in the Travis CI build by running `bundle exec rake` in 
+  * You can simulate what happens in the Travis CI build by running `bundle exec rake` in
     the projects root directory.
 
 ### Other Design Guidelines
