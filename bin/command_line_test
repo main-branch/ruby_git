@@ -1,0 +1,189 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'command_line_boss'
+
+# A script used to test calling a command line program from Ruby
+#
+# This script is used to test the `Git::CommandLine` class. It is called
+# from the `test_command_line` unit test.
+#
+# --stdout: string to output to stdout
+# --stderr: string to output to stderr
+# --exitstatus: exit status to return (default is zero)
+# --signal: uncaught signal to raise (default is not to signal)
+# --duration: number of seconds to sleep before exiting (default is zero)
+#
+# Both --stdout and --stderr can be given.
+#
+# If --signal is given, --exitstatus is ignored.
+#
+# Examples:
+# Output "Hello, world!" to stdout and exit with status 0
+#    $ bin/command_line_test --stdout="Hello, world!" --exitstatus=0
+#
+# Output "ERROR: timeout" to stderr and exit with status 1
+#   $ bin/command_line_test --stderr="ERROR: timeout" --exitstatus=1
+#
+# Output "Fatal: killed by parent" to stderr and signal 9
+#   $ bin/command_line_test --stderr="Fatal: killed by parent" --signal=9
+#
+# Output to both stdout and stderr return default exitstatus 0
+#   $ bin/command_line_test --stdout="Hello, world!" --stderr="ERROR: timeout"
+#
+
+# The command line parser for this script
+#
+# @example
+#   parser = CommandLineParser.new
+#   options = parser.parse(['--exitstatus', '1', '--stderr', 'ERROR: timeout', '--duration', '5'])
+#
+# @api private
+class CommandLineParser < CommandLineBoss
+  attr_reader :duration, :stdout, :stderr, :exitstatus, :signal, :env_vars, :remaining_args
+
+  private
+
+  def set_defaults
+    @duration = 0.0
+    @stdout = nil
+    @stderr = nil
+    @exitstatus = 0
+    @signal = nil
+    @env_vars = []
+    @remaining_args = []
+  end
+
+  include CommandLineBoss::HelpOption
+
+  def parse_arguments
+    @remaining_args = args.shift(args.length)
+  end
+
+  def banner = <<~HEADER
+    A script used to test calling a command line program from Ruby
+
+    Command line options allow control of the output, exit status, signal
+    raised, and the duration of the command.
+
+    Usage: #{$PROGRAM_NAME} [options]
+
+  HEADER
+
+  def footer = <<~HEADER
+    The default exitstatus is 0.
+    The default duration is 0.
+    Both --stdout and --stderr can be given.
+    If --signal is given, --exitstatus is ignored.
+
+    If no options are given, the script will exit with exitstatus 0.
+  HEADER
+
+  # Define the stdout option
+  # @return [void]
+  # @api private
+  def define_stdout_option
+    parser.on('--stdout="string to stdout"', 'A string to send to stdout') do |string|
+      @stdout = string
+    end
+  end
+
+  # Define the stdout-file option
+  # @return [void]
+  # @api private
+  def define_stdout_file_option
+    parser.on('--stdout-file="file"', 'Send contents of file to stdout') do |filename|
+      @stdout = File.binread(filename)
+    end
+  end
+
+  # Define the stderr option
+  # @return [void]
+  # @api private
+  def define_stderr_option
+    parser.on('--stderr="string to stderr"', 'A string to send to stderr') do |string|
+      @stderr = string
+    end
+  end
+
+  # Define the stderr-file option
+  # @return [void]
+  # @api private
+  def define_stderr_file_option
+    parser.on('--stderr-file="file"', 'Send contents of file to stderr') do |filename|
+      @stderr = File.binread(filename)
+    end
+  end
+
+  # Define the exitstatus option
+  # @return [void]
+  # @api private
+  def define_exitstatus_option
+    parser.on('--exitstatus=1', 'The exitstatus to return') do |exitstatus|
+      @exitstatus = Integer(exitstatus)
+    end
+  end
+
+  # Define the signal option
+  # @return [void]
+  # @api private
+  def define_signal_option
+    parser.on('--signal=9', 'The signal to raise') do |signal|
+      @signal = Integer(signal)
+    end
+  end
+
+  # Define the duration option
+  # @return [void]
+  # @api private
+  def define_duration_option
+    parser.on('--duration=0', 'The number of seconds the command should take') do |duration|
+      @duration = Float(duration)
+    end
+  end
+
+  # Define the envvar option
+  # @return [void]
+  # @api private
+  def define_env_var_option
+    parser.on('--env-var=name', 'Display an environment variable') do |name|
+      @env_vars << name
+    end
+  end
+end
+
+options = CommandLineParser.new.parse(ARGV)
+
+if options.error_messages.any?
+  warn options.error_messages.join("\n")
+  exit 1
+end
+
+options.remaining_args.each do |arg|
+  warn "Found argument: #{arg}"
+end
+
+options.env_vars.each do |name|
+  print "Environment variable #{name}="
+  if ENV.key?(name)
+    puts ENV[name].inspect
+  else
+    puts '<not set>'
+  end
+end
+
+if options.stdout
+  $stdout.binmode
+  $stdout.puts options.stdout
+end
+
+if options.stderr
+  $stderr.binmode
+  $stderr.puts options.stderr # rubocop:disable Style/StderrPuts
+end
+
+sleep options.duration unless options.duration.zero?
+
+Process.kill(options.signal, Process.pid) if options.signal
+
+exit(options.exitstatus) if options.exitstatus
