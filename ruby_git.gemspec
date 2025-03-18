@@ -42,20 +42,24 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler-audit', '~> 0.9'
+  spec.add_development_dependency 'command_line_boss', '~> 0.2'
   spec.add_development_dependency 'create_github_release', '~> 2.1'
   spec.add_development_dependency 'main_branch_shared_rubocop_config', '~> 0.1'
   spec.add_development_dependency 'rake', '~> 13.2'
   spec.add_development_dependency 'rspec', '~> 3.13'
-  spec.add_development_dependency 'rubocop', '~> 1.66'
+  spec.add_development_dependency 'rubocop', '~> 1.74'
   spec.add_development_dependency 'simplecov', '~> 0.22'
   spec.add_development_dependency 'simplecov-lcov', '~> 0.8'
-  spec.add_development_dependency 'simplecov-rspec', '~> 0.3'
+  spec.add_development_dependency 'simplecov-rspec', '~> 0.4'
 
   unless RUBY_PLATFORM == 'java'
     spec.add_development_dependency 'redcarpet', '~> 3.6'
     spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.28'
     spec.add_development_dependency 'yardstick', '~> 0.9'
   end
+
+  spec.add_dependency 'process_executer', '~> 3.0'
+  spec.add_dependency 'rchardet', '~> 1.9'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
