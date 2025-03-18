@@ -12,6 +12,22 @@ RSpec.configure do |config|
   end
 end
 
+def windows? = Gem.win_platform?
+def truffleruby? = RUBY_ENGINE == 'truffleruby'
+def jruby? = RUBY_ENGINE == 'jruby'
+def mri? = RUBY_ENGINE == 'ruby'
+
+def ruby_command(code)
+  @ruby_path ||=
+    if windows?
+      `where ruby`.chomp
+    else
+      `which ruby`.chomp
+    end
+
+  [@ruby_path, '-e', code]
+end
+
 # SimpleCov configuration
 #
 require 'simplecov'
