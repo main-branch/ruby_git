@@ -20,16 +20,16 @@ require 'command_line_boss'
 #
 # Examples:
 # Output "Hello, world!" to stdout and exit with status 0
-#    $ bin/command_line_test --stdout="Hello, world!" --exitstatus=0
+#    $ bin/command-line-test --stdout="Hello, world!" --exitstatus=0
 #
 # Output "ERROR: timeout" to stderr and exit with status 1
-#   $ bin/command_line_test --stderr="ERROR: timeout" --exitstatus=1
+#   $ bin/command-line-test --stderr="ERROR: timeout" --exitstatus=1
 #
 # Output "Fatal: killed by parent" to stderr and signal 9
-#   $ bin/command_line_test --stderr="Fatal: killed by parent" --signal=9
+#   $ bin/command-line-test --stderr="Fatal: killed by parent" --signal=9
 #
 # Output to both stdout and stderr return default exitstatus 0
-#   $ bin/command_line_test --stdout="Hello, world!" --stderr="ERROR: timeout"
+#   $ bin/command-line-test --stdout="Hello, world!" --stderr="ERROR: timeout"
 #
 
 # The command line parser for this script
