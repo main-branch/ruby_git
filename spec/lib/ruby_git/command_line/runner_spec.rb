@@ -9,8 +9,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
       'MYVAR2' => 'myvar2_value'
     }
   end
-  let(:binary_path) { 'bin/command_line_test' }
-  let(:global_options) { {} }
+  let(:binary_path) { 'ruby' }
+  let(:global_options) { ['bin/command-line-test'] }
   let(:logger) { Logger.new(nil) }
 
   describe '#initialize' do
@@ -36,8 +36,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         'MYVAR1' => 'myvar1_value',
         'MYVAR2' => 'myvar2_value'
       }
-      binary_path = 'bin/command_line_test'
-      global_options = ['--env-var', 'MYVAR1']
+      binary_path = 'ruby'
+      global_options = ['bin/command-line-test', '--env-var', 'MYVAR1']
       args = [
         '--stdout', 'stdout output',
         '--stderr', 'stderr output'
@@ -62,8 +62,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
 
     let(:result) { runner.call(*command_line_test_args, **options) }
     let(:env) { {} }
-    let(:binary_path) { 'bin/command_line_test' }
-    let(:global_options) { [] }
+    let(:binary_path) { 'ruby' }
+    let(:global_options) { ['bin/command-line-test'] }
     let(:options) { { raise_git_errors:, timeout_after:, chomp: } }
     let(:raise_git_errors) { true }
     let(:timeout_after) { nil }
