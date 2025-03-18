@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require 'ruby_git/error'
+require 'ruby_git/command_line'
+require 'ruby_git/encoding_normalizer'
+require 'ruby_git/errors'
 require 'ruby_git/file_helpers'
 require 'ruby_git/git_binary'
 require 'ruby_git/version'
@@ -43,12 +45,10 @@ module RubyGit
     attr_reader :git
   end
 
-  @logger = Logger.new(File::NULL)
+  @logger = Logger.new(nil)
 
   class << self
-    # The logger used by the RubyGit gem
-    #
-    # The default value is a Logger that writes to `/dev/null`.
+    # The logger used by the RubyGit gem (Logger.new(nil) by default)
     #
     # @example Using the logger
     #   RubyGit.logger.debug('Debug message')
