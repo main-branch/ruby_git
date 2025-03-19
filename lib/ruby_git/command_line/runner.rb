@@ -23,6 +23,7 @@ module RubyGit
       #   cli.run('version') #=> #<RubyGit::CommandLineResult:0x00007f9b0c0b0e00
       #
       # @param env [Hash<String, String>] environment variables to set
+      # @param binary_path [String] the path to the git binary
       # @param global_options [Array<String>] global options to pass to git
       # @param logger [Logger] the logger to use
       #

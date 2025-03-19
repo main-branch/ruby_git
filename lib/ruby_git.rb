@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require 'ruby_git/command_line'
-require 'ruby_git/encoding_normalizer'
-require 'ruby_git/errors'
-require 'ruby_git/git_binary'
-require 'ruby_git/version'
-require 'ruby_git/working_tree'
+require_relative 'ruby_git/command_line'
+require_relative 'ruby_git/encoding_normalizer'
+require_relative 'ruby_git/errors'
+require_relative 'ruby_git/version'
+require_relative 'ruby_git/working_tree'
 
 require 'logger'
 
@@ -28,22 +27,6 @@ require 'logger'
 # @api public
 #
 module RubyGit
-  @git = RubyGit::GitBinary.new
-
-  class << self
-    # Information about the git binary used by the RubyGit gem
-    #
-    # Use this object to set the path to the git binary to use or to see the
-    # path being used.
-    #
-    # @example Setting the git binary path
-    #   RubyGit.git.path = '/usr/local/bin/git'
-    #
-    # @return [RubyGit::GitBinary] the git binary object
-    #
-    attr_reader :git
-  end
-
   @logger = Logger.new(nil)
 
   class << self
@@ -64,6 +47,27 @@ module RubyGit
     # @return [Logger] the logger used by the RubyGit gem
     #
     attr_accessor :logger
+  end
+
+  @binary_path = 'git'
+
+  class << self
+    # The path to the git binary used by the RubyGit gem
+    #
+    # * If the path is a command name, the command is search for in the PATH.
+    #
+    # * If the path is a relative path, it relative to the current directory (not
+    #   recommended as this will change as the current directory is changed).
+    #
+    # * If the path is an absolute path, it is used as is.
+    #
+    # @example
+    #   RubyGit.binary_path
+    #    => "git"
+    #
+    # @return [String]
+    #
+    attr_accessor :binary_path
   end
 
   # Create an empty Git repository under the root working tree `path`
@@ -140,5 +144,22 @@ module RubyGit
   #
   def self.clone(repository_url, to_path: '')
     RubyGit::WorkingTree.clone(repository_url, to_path:)
+  end
+
+  # The version of git referred to by the path
+  #
+  # @example for version 2.28.0
+  #   RubyGit.binary_version #=> [2, 28, 0]
+  #
+  # @return [Array<Integer>] an array of integers representing the version.
+  #
+  # @raise [RuntimeError] if path was not set via `path=` and either PATH is not set
+  #   or git was not found on the path.
+  #
+  def self.binary_version
+    command = %w[version]
+    options = { out: StringIO.new, err: StringIO.new }
+    version_string = RubyGit::CommandLine.run(*command, **options).stdout[/\d+\.\d+(\.\d+)+/]
+    version_string.split('.').collect(&:to_i)
   end
 end

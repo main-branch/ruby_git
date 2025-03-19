@@ -39,11 +39,11 @@ module RubyGit
     def self.init(working_tree_path)
       raise RubyGit::Error, "Path '#{working_tree_path}' not valid." unless File.directory?(working_tree_path)
 
-      command = [RubyGit.git.path.to_s, 'init']
-      _out, err, status = Open3.capture3(*command, chdir: working_tree_path)
-      raise RubyGit::Error, err unless status.success?
+      command = ['init']
+      options = { chdir: working_tree_path, out: StringIO.new, err: StringIO.new }
+      RubyGit::CommandLine.run(*command, **options)
 
-      WorkingTree.new(working_tree_path)
+      new(working_tree_path)
     end
 
     # Open an existing Git working tree that contains working_tree_path
@@ -94,16 +94,15 @@ module RubyGit
     # `to_path` will be created if it does not exist.  An error is raised if `to_path` exists and
     # not an empty directory.
     #
-    # @raise [RubyGit::Error] if (1) `repository_url` is not valid or does not point to a valid repository OR
+    # @raise [RubyGit::FailedError] if (1) `repository_url` is not valid or does not point to a valid repository OR
     #   (2) `to_path` is not an empty directory.
     #
     # @return [RubyGit::WorkingTree] the Git working tree checked out from the cloned repository
     #
     def self.clone(repository_url, to_path: '')
-      command = [RubyGit.git.path.to_s, 'clone', '--', repository_url, to_path]
-      _out, err, status = Open3.capture3(*command)
-      raise RubyGit::Error, err unless status.success?
-
+      command = ['clone', '--', repository_url, to_path]
+      options = { out: StringIO.new, err: StringIO.new }
+      RubyGit::CommandLine.run(*command, **options)
       new(to_path)
     end
 
@@ -121,18 +120,20 @@ module RubyGit
 
     # Find the root path of a Git working tree containing `path`
     #
-    # @raise [RubyGit::Error] if the path is not in a Git working tree
+    # @raise [RubyGit::FailedError] if the path is not in a Git working tree
     #
     # @return [String] the root path of the Git working tree containing `path`
     #
     # @api private
     #
     def root_path(working_tree_path)
-      command = [RubyGit.git.path.to_s, 'rev-parse', '--show-toplevel']
-      out, err, status = Open3.capture3(*command, chdir: working_tree_path)
-      raise RubyGit::Error, err unless status.success?
-
-      out.chomp
+      command = %w[rev-parse --show-toplevel]
+      options = { chdir: working_tree_path, chomp: true, out: StringIO.new, err: StringIO.new }
+      RubyGit::CommandLine.run(*command, **options).stdout
     end
+
+    # def run(*command, **options)
+    #   RubyGit::CommandLine.run(*command, working_tree_path: path, **options)
+    # end
   end
 end
