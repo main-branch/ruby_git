@@ -129,7 +129,7 @@ RSpec.describe RubyGit::CommandLine::Runner do
       end
     end
 
-    context 'with a signaled command' do
+    context 'with a signaled command', if: !windows? do
       let(:command_line_test_args) { %w[--signal 9] }
 
       let(:expected_result_attributes) do
@@ -164,15 +164,24 @@ RSpec.describe RubyGit::CommandLine::Runner do
     context 'with a timeout error' do
       let(:command_line_test_args) { %w[--duration 0.1] }
 
+      # :nocov:
       let(:expected_result_attributes) do
-        {
-          success?: nil,
-          exitstatus: nil,
-          signaled?: true,
-          timed_out?: true,
-          termsig: 9
-        }
+        if windows?
+          {
+            success?: nil,
+            timed_out?: true
+          }
+        else
+          {
+            success?: nil,
+            exitstatus: nil,
+            signaled?: true,
+            timed_out?: true,
+            termsig: 9
+          }
+        end
       end
+      # :nocov:
 
       context 'when raise_git_errors is true' do
         let(:raise_git_errors) { true }
@@ -228,13 +237,13 @@ RSpec.describe RubyGit::CommandLine::Runner do
       let(:options) { { out: StringIO.new, err: StringIO.new, normalize_encoding: } }
 
       let(:expected_non_normalized_output) do
-        output =
-          "\xCB\xEF\xF1\xE5\xEC \xE9\xF0\xF3\xE8\xEC \xE4\xEF\xEB\xEF\xF1 \xF3\xE9\xF4#{eol}" \
-          "\xC7\xE9\xF3 \xE5\xEE \xF4\xEF\xF4\xE1 \xF3\xE8\xE1v\xE9\xF4\xE1\xF4\xE5#{eol}" \
-          "\xCD\xEF \xE8\xF1\xE2\xE1\xED\xE9\xF4\xE1\xF3#{eol}" \
+        String.new(
+          "\xCB\xEF\xF1\xE5\xEC \xE9\xF0\xF3\xE8\xEC \xE4\xEF\xEB\xEF\xF1 \xF3\xE9\xF4\n" \
+          "\xC7\xE9\xF3 \xE5\xEE \xF4\xEF\xF4\xE1 \xF3\xE8\xE1v\xE9\xF4\xE1\xF4\xE5\n" \
+          "\xCD\xEF \xE8\xF1\xE2\xE1\xED\xE9\xF4\xE1\xF3\n" \
           "\xD6\xE5\xE8\xE3\xE9\xE1\xF4 \xE8\xF1\xE2\xE1\xED\xE9\xF4\xE1\xF3 " \
-          "\xF1\xE5\xF0\xF1\xE9\xEC\xE9q\xE8\xE5#{eol}"
-        output.force_encoding('ASCII-8BIT')
+          "\xF1\xE5\xF0\xF1\xE9\xEC\xE9q\xE8\xE5\n"
+        ).force_encoding('ASCII-8BIT')
       end
 
       let(:expected_normalized_output) { <<~OUTPUT }
@@ -244,16 +253,13 @@ RSpec.describe RubyGit::CommandLine::Runner do
         Φεθγιατ θρβανιτασ ρεπριμιqθε
       OUTPUT
 
-      # The test script adds a carriage return for each line on windows
-      let(:eol) { RUBY_PLATFORM =~ /mswin|mingw/ ? "\r\n" : "\n" }
-
       context 'when normalization is enabled' do
         let(:normalize_encoding) { true }
 
         context 'with output containing mixed encoding' do
           let(:command_line_test_args) { %w[--stdout-file spec/fixtures/mixed_encoding.txt] }
           it 'should normalize the encoding' do
-            expect(subject.stdout).to eq(expected_normalized_output)
+            expect(subject.stdout.with_linux_eol).to eq(expected_normalized_output)
           end
         end
       end
@@ -265,7 +271,7 @@ RSpec.describe RubyGit::CommandLine::Runner do
           let(:command_line_test_args) { %w[--stdout-file spec/fixtures/mixed_encoding.txt] }
 
           it 'should NOT normalize the encoding' do
-            expect(subject.stdout).to eq(expected_non_normalized_output)
+            expect(subject.stdout.with_linux_eol).to eq(expected_non_normalized_output)
           end
         end
       end

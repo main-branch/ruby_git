@@ -8,12 +8,32 @@ module RubyGit
   class GitBinary
     # Return a new GitBinary object
     #
+    # If the path is a command name, the command is search for in the PATH.
+    #
+    # If the path is a relative path, it is expanded to an absolute path relative to
+    # the current directory.
+    #
+    # If the path is an absolute path, it is used as is.
+    #
     # @example
     #   GitBinary.new
     #
-    def initialize(path = nil)
+    # @param [String] path the path to the git binary
+    #
+    def initialize(path = 'git')
       @path = Pathname.new(path) unless path.nil?
     end
+
+    # @attribute [r] path
+    #
+    # The path to the git binary
+    #
+    # @example
+    #   error.result #=> #<Pathname:git>
+    #
+    # @return [RubyGit::CommandLineResult]
+    #
+    attr_reader :path
 
     # Sets the path to the git binary
     #
@@ -30,47 +50,7 @@ module RubyGit
     #   to an existing executable file.
     #
     def path=(path)
-      new_path = Pathname.new(path)
-      raise "'#{new_path}' does not exist." unless new_path.exist?
-      raise "'#{new_path}' is not a file." unless new_path.file?
-      raise "'#{new_path}' is not executable." unless new_path.executable?
-
-      @path = new_path
-    end
-
-    # Retrieve the path to the git binary
-    #
-    # @example Get the git found on the PATH
-    #   git = RubyGit::GitBinary.new
-    #   git.path
-    #    => #<Pathname:/usr/bin/git>
-    #
-    # @return [Pathname] the path to the git binary
-    #
-    # @raise [RuntimeError] if path was not set via `path=` and either PATH is not set
-    #   or git was not found on the path.
-    #
-    def path
-      @path || (@path = self.class.default_path)
-    end
-
-    # Get the default path to to a git binary by searching the PATH
-    #
-    # @example Find the pathname to `super_git`
-    #   git = RubyGit::GitBinary.new
-    #   git.default_path(basename: 'super_git')
-    #    => #<Pathname:/usr/bin/super_git>
-    #
-    # @param [String] basename The basename of the git command
-    #
-    # @return [Pathname] the path to the git binary found in the path
-    #
-    # @raise [RuntimeError] if either PATH is not set or an executable file
-    #   `basename` was not found on the path.
-    #
-    def self.default_path(basename: 'git', path: ENV.fetch('PATH', nil), path_ext: ENV.fetch('PATHEXT', nil))
-      RubyGit::FileHelpers.which(basename, path:, path_ext:) ||
-        raise("Could not find '#{basename}' in the PATH.")
+      @path = Pathname.new(path)
     end
 
     # The version of git referred to by the path

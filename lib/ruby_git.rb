@@ -3,7 +3,6 @@
 require 'ruby_git/command_line'
 require 'ruby_git/encoding_normalizer'
 require 'ruby_git/errors'
-require 'ruby_git/file_helpers'
 require 'ruby_git/git_binary'
 require 'ruby_git/version'
 require 'ruby_git/working_tree'

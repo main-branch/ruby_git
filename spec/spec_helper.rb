@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'English'
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
@@ -42,6 +44,16 @@ if ci_build?
     SimpleCov::Formatter::LcovFormatter
   ]
 end
+
+class String
+  def with_linux_eol
+    # Replace Windows style EOL (\r\n) with Unix style (\n)
+    # Replace any remaining Mac style EOL (\r) with Unix style (\n)
+    gsub("\r\n", "\n").gsub("\r", "\n")
+  end
+end
+
+def eol = windows? ? "\r\n" : "\n"
 
 SimpleCov::RSpec.start(list_uncovered_lines: ci_build?)
 
