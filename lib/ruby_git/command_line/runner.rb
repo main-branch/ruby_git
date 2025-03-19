@@ -147,7 +147,7 @@ module RubyGit
       #
       #   This array should be splatted into the parameter list.
       #
-      # @params options_hash [Hash] the options to initialize {RubyGit::CommandLine::Options}
+      # @param options_hash [Hash] the options to initialize {RubyGit::CommandLine::Options}
       #
       # @return [RubyGit::CommandLine::Result] the result of the command
       #

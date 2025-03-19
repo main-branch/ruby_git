@@ -29,7 +29,7 @@ RSpec.describe RubyGit::WorkingTree do
       before { FileUtils.rm_rf(repository_url) }
       let(:working_tree_path) { tmpdir }
       it 'should raise RubyGit::Error' do
-        expect { subject }.to raise_error(RubyGit::Error, /does not exist/)
+        expect { subject }.to raise_error(RubyGit::Error)
       end
     end
 

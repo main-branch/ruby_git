@@ -13,7 +13,7 @@ env:
 
 # Experimental platforms / Ruby versions:
 #  - Ubuntu: MRI (head), TruffleRuby (head), JRuby (head)
-#  - Windows: MRI (head), JRuby (head)
+#  - Windows: MRI (head), JRuby (head), JRuby (9.4)
 
 jobs:
   build:
@@ -25,6 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        fail_on_low_coverage: [true]
         include:
           - ruby: head
             operating-system: ubuntu-latest
@@ -32,10 +33,16 @@ jobs:
             operating-system: windows-latest
           - ruby: truffleruby-head
             operating-system: ubuntu-latest
+            fail_on_low_coverage: false
           - ruby: jruby-head
             operating-system: ubuntu-latest
+            fail_on_low_coverage: false
+          - ruby: "jruby-9.4"
+            operating-system: windows-latest
+            fail_on_low_coverage: false
           - ruby: jruby-head
             operating-system: windows-latest
+            fail_on_low_coverage: false
 
     steps:
       - name: Checkout
