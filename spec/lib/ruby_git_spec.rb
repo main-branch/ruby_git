@@ -22,9 +22,21 @@ RSpec.describe RubyGit do
     end
   end
 
-  describe '.git_binary' do
-    subject { described_class.git }
-    it { is_expected.to be_kind_of(RubyGit::GitBinary) }
+  describe '.binary_path' do
+    subject { described_class.binary_path }
+
+    context 'when a binary path is not set by the user' do
+      it { is_expected.to eq('git') }
+    end
+
+    context 'when a binary path is set by the user' do
+      it 'should return the binary path set by the user' do
+        saved_path = described_class.binary_path
+        described_class.binary_path = '/usr/bin/git'
+        expect(subject).to eq('/usr/bin/git')
+        described_class.binary_path = saved_path
+      end
+    end
   end
 
   describe '.init' do
@@ -57,6 +69,18 @@ RSpec.describe RubyGit do
       stub_const('RubyGit::WorkingTree', working_tree_class)
       expect(working_tree_class).to receive(:open).with(working_tree_path)
       subject
+    end
+  end
+
+  describe '.binary_version' do
+    subject { described_class.binary_version }
+    context 'when "git --version" outputs "git version 10.11.12"' do
+      let(:git_version_string) { 'git version 10.11.12' }
+      let(:result) { double(RubyGit::CommandLine::Result, stdout: git_version_string) }
+      it 'should return [10, 11, 12]' do
+        expect(RubyGit::CommandLine).to receive(:run).with('version', Hash).and_return(result)
+        expect(subject).to eq([10, 11, 12])
+      end
     end
   end
 end
