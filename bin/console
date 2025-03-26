@@ -12,4 +12,6 @@ require 'ruby_git'
 # Pry.start
 
 require 'irb'
+require_relative '../spec/spec_helper'
+
 IRB.start(__FILE__)

@@ -135,5 +135,22 @@ module RubyGit
     # def run(*command, **options)
     #   RubyGit::CommandLine.run(*command, worktree_path: path, **options)
     # end
+
+    # #
+    # # @param untracked_files [Symbol] Can be :all, :normal, :no
+    # # @param ignore_submodules [Symbol] Can be :all, :dirty, :untracked, :none
+    # # @param ignored [Symbol] Can be :traditional, :matching, :no
+    # # @param renames [Boolean] Whether to detect renames
+    # def status(untracked_files:)
+    #   # -z for null-terminated output
+    #   # --porcelain for machine-readable output
+    #   git status --porcelain=v2 --untracked-files --branch --show-stash --ahead-behind --renames -z
+    #   command = ['status', '--porcelain', '--branch', '-z']
+    #   command << '--untracked-files=all' if untracked_files == :all
+    #   command << '--untracked-files=no' if untracked_files == :no
+    #   options = { chdir: path, out: StringIO.new, err: StringIO.new }
+    #   result = RubyGit::CommandLine.run(*command, **options)
+    #   result.stdout
+    # end
   end
 end

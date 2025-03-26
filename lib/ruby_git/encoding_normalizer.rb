@@ -3,7 +3,7 @@
 require 'rchardet'
 
 module RubyGit
-  # Utility to normalize string encoding to the {#normalized_encoding}
+  # Utility to normalize string encoding
   # @api public
   module EncodingNormalizer
     # Detects the character encoding used to create a string or binary data
