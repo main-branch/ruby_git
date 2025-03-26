@@ -4,7 +4,7 @@ require_relative 'ruby_git/command_line'
 require_relative 'ruby_git/encoding_normalizer'
 require_relative 'ruby_git/errors'
 require_relative 'ruby_git/version'
-require_relative 'ruby_git/working_tree'
+require_relative 'ruby_git/worktree'
 
 require 'logger'
 
@@ -14,7 +14,7 @@ require 'logger'
 # the type of object that action operates on.
 #
 # There are three main objects in RubyGit:
-# * {WorkingTree}: The directory tree of actual checked
+# * {Worktree}: The directory tree of actual checked
 #   out files. The working tree normally contains the contents of the HEAD commit's
 #   tree, plus any local changes that you have made but not yet committed.
 # * Index: The index is used as a staging area between your
@@ -77,57 +77,57 @@ module RubyGit
   # @see https://git-scm.com/docs/git-init git-init
   #
   # @example
-  #   working_tree = WorkingTree.init(working_tree_path)
+  #   worktree = Worktree.init(worktree_path)
   #
-  # @param [String] working_tree_path the root path of a working_tree
+  # @param [String] worktree_path the root path of a worktree
   #
-  # @raise [RubyGit::Error] if working_tree_path is not a directory
+  # @raise [RubyGit::Error] if worktree_path is not a directory
   #
-  # @return [RubyGit::WorkingTree] the working_tree whose root is at `path`
+  # @return [RubyGit::Worktree] the worktree whose root is at `path`
   #
-  def self.init(working_tree_path)
-    RubyGit::WorkingTree.init(working_tree_path)
+  def self.init(worktree_path)
+    RubyGit::Worktree.init(worktree_path)
   end
 
-  # Open an existing Git working tree that contains working_tree_path
+  # Open an existing Git working tree that contains worktree_path
   #
   # @see https://git-scm.com/docs/git-open git-open
   #
   # @example
-  #   working_tree = WorkingTree.open(working_tree_path)
+  #   worktree = Worktree.open(worktree_path)
   #
-  # @param [String] working_tree_path the root path of a working_tree
+  # @param [String] worktree_path the root path of a worktree
   #
-  # @raise [RubyGit::Error] if `working_tree_path` does not exist, is not a directory, or is not within
-  #   a Git working_tree.
+  # @raise [RubyGit::Error] if `worktree_path` does not exist, is not a directory, or is not within
+  #   a Git worktree.
   #
-  # @return [RubyGit::WorkingTree] the working_tree that contains `working_tree_path`
+  # @return [RubyGit::Worktree] the worktree that contains `worktree_path`
   #
-  def self.open(working_tree_path)
-    RubyGit::WorkingTree.open(working_tree_path)
+  def self.open(worktree_path)
+    RubyGit::Worktree.open(worktree_path)
   end
 
   # Copy the remote repository and checkout the default branch
   #
   # Clones the repository referred to by `repository_url` into a newly created
   # directory, creates remote-tracking branches for each branch in the cloned repository,
-  # and checks out the default branch in the working_tree whose root directory is `to_path`.
+  # and checks out the default branch in the worktree whose root directory is `to_path`.
   #
   # @see https://git-scm.com/docs/git-clone git-clone
   #
-  # @example Using default for WorkingTree path
+  # @example Using default for Worktree path
   #   FileUtils.pwd
   #    => "/Users/jsmith"
-  #   working_tree = WorkingTree.clone('https://github.com/main-branch/ruby_git.git')
-  #   working_tree.path
+  #   worktree = Worktree.clone('https://github.com/main-branch/ruby_git.git')
+  #   worktree.path
   #    => "/Users/jsmith/ruby_git"
   #
-  # @example Using a specified working_tree_path
+  # @example Using a specified worktree_path
   #   FileUtils.pwd
   #    => "/Users/jsmith"
-  #   working_tree_path = '/tmp/project'
-  #   working_tree = WorkingTree.clone('https://github.com/main-branch/ruby_git.git', to_path: working_tree_path)
-  #   working_tree.path
+  #   worktree_path = '/tmp/project'
+  #   worktree = Worktree.clone('https://github.com/main-branch/ruby_git.git', to_path: worktree_path)
+  #   worktree.path
   #    => "/tmp/project"
   #
   # @param [String] repository_url a reference to a Git repository
@@ -140,10 +140,10 @@ module RubyGit
   # @raise [RubyGit::Error] if (1) `repository_url` is not valid or does not point to a valid repository OR
   #   (2) `to_path` is not an empty directory.
   #
-  # @return [RubyGit::WorkingTree] the working tree checked out from the cloned repository
+  # @return [RubyGit::Worktree] the working tree checked out from the cloned repository
   #
   def self.clone(repository_url, to_path: '')
-    RubyGit::WorkingTree.clone(repository_url, to_path:)
+    RubyGit::Worktree.clone(repository_url, to_path:)
   end
 
   # The version of git referred to by the path

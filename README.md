@@ -26,7 +26,7 @@ interactions easier. To accomplish this, it ties each action you can do with `gi
 the type of object that action operates on.
 
 There are three main objects in RubyGit:
- * [WorkingTree](lib/ruby_git/working_tree.rb): The directory tree of actual checked
+ * [Worktree](lib/ruby_git/worktree.rb): The directory tree of actual checked
    out files. The working tree normally contains the contents of the HEAD commit’s
    tree, plus any local changes that you have made but not yet committed.
  * [Index](lib/ruby_git/index.rb): The index is used as a staging area between your
@@ -67,24 +67,24 @@ RubyGit.git.path #=> '/usr/local/bin/git'
 RubyGit.git.version #=> [2,28,0]
 ```
 
-To work with an existing WorkingTree:
+To work with an existing Worktree:
 
 ```Ruby
-working_tree = RubyGit.open(working_tree_path)
-working_tree.append_to_file('README.md', 'New line in README.md')
-working_tree.add('README.md')
-working_tree.commit('Add a line to the README.md')
-working_tree.push
+worktree = RubyGit.open(worktree_path)
+worktree.append_to_file('README.md', 'New line in README.md')
+worktree.add('README.md')
+worktree.commit('Add a line to the README.md')
+worktree.push
 ```
 
-To create a new WorkingTree:
+To create a new Worktree:
 
 ```Ruby
-working_tree = RubyGit.init(working_tree_path)
-working_tree.write_to_file('README.md', '# My New Project')
-working_tree.add('README.md')
-working_tree.repository.add_remote(remote_name: 'origin', url: 'https://github.com/jcouball/test', default_branch: 'main')
-working_tree.push(remote_name: 'origin')
+worktree = RubyGit.init(worktree_path)
+worktree.write_to_file('README.md', '# My New Project')
+worktree.add('README.md')
+worktree.repository.add_remote(remote_name: 'origin', url: 'https://github.com/jcouball/test', default_branch: 'main')
+worktree.push(remote_name: 'origin')
 ```
 
 To tell what version of Git is being used:

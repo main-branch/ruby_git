@@ -40,12 +40,12 @@ RSpec.describe RubyGit do
   end
 
   describe '.init' do
-    let(:working_tree_path) { '/Users/jsmith/my_project' }
-    subject { RubyGit.init(working_tree_path) }
-    it 'should call RubyGit::WorkingTree.init with the same arguments' do
-      working_tree_class = class_double('RubyGit::WorkingTree')
-      stub_const('RubyGit::WorkingTree', working_tree_class)
-      expect(working_tree_class).to receive(:init).with(working_tree_path)
+    let(:worktree_path) { '/Users/jsmith/my_project' }
+    subject { RubyGit.init(worktree_path) }
+    it 'should call RubyGit::Worktree.init with the same arguments' do
+      worktree_class = class_double('RubyGit::Worktree')
+      stub_const('RubyGit::Worktree', worktree_class)
+      expect(worktree_class).to receive(:init).with(worktree_path)
       subject
     end
   end
@@ -53,21 +53,21 @@ RSpec.describe RubyGit do
   describe '.clone' do
     let(:repository_url) { 'https://github.com/main-branch/ruby_git.git' }
     subject { RubyGit.clone(repository_url) }
-    it 'should call RubyGit::WorkingTree.clone with the same arguments' do
-      working_tree_class = class_double('RubyGit::WorkingTree')
-      stub_const('RubyGit::WorkingTree', working_tree_class)
-      expect(working_tree_class).to receive(:clone).with(repository_url, to_path: '')
+    it 'should call RubyGit::Worktree.clone with the same arguments' do
+      worktree_class = class_double('RubyGit::Worktree')
+      stub_const('RubyGit::Worktree', worktree_class)
+      expect(worktree_class).to receive(:clone).with(repository_url, to_path: '')
       subject
     end
   end
 
   describe '.open' do
-    let(:working_tree_path) { '/Users/jsmith/my_project' }
-    subject { RubyGit.open(working_tree_path) }
-    it 'should call RubyGit::WorkingTree.open with the same arguments' do
-      working_tree_class = class_double('RubyGit::WorkingTree')
-      stub_const('RubyGit::WorkingTree', working_tree_class)
-      expect(working_tree_class).to receive(:open).with(working_tree_path)
+    let(:worktree_path) { '/Users/jsmith/my_project' }
+    subject { RubyGit.open(worktree_path) }
+    it 'should call RubyGit::Worktree.open with the same arguments' do
+      worktree_class = class_double('RubyGit::Worktree')
+      stub_const('RubyGit::Worktree', worktree_class)
+      expect(worktree_class).to receive(:open).with(worktree_path)
       subject
     end
   end
