@@ -111,5 +111,66 @@ RSpec.describe RubyGit::Worktree do
         expect(subject.entries.map(&:path)).to contain_exactly('file_1', 'file_2')
       end
     end
+
+    context 'building the right status command' do
+      let(:given_options) { {} }
+
+      let(:result) { instance_double(RubyGit::CommandLine::Result, stdout: '') }
+
+      context 'when no options are given' do
+        let(:expected_command) do
+          %w[status --porcelain=v2
+             --branch --show-stash --ahead-behind --renames -z
+             --untracked-files=all --ignored=no --ignore-submodules=all]
+        end
+
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run).with(*expected_command, Hash)
+          ).and_return(result)
+
+          worktree.status(**given_options)
+        end
+      end
+
+      context 'when a non-default untracked_files is given' do
+        let(:given_options) { { untracked_files: :normal } }
+
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run) do |*args, **_options|
+              expect(args).to include('--untracked-files=normal')
+            end.and_return(result)
+          )
+          worktree.status(**given_options)
+        end
+      end
+
+      context 'when ignored is given' do
+        let(:given_options) { { ignored: :matching } }
+
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run) do |*args, **_options|
+              expect(args).to include('--ignored=matching')
+            end.and_return(result)
+          )
+          worktree.status(**given_options)
+        end
+      end
+
+      context 'when ignore_submodules is given' do
+        let(:given_options) { { ignore_submodules: :dirty } }
+
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run) do |*args, **_options|
+              expect(args).to include('--ignore-submodules=dirty')
+            end.and_return(result)
+          )
+          worktree.status(**given_options)
+        end
+      end
+    end
   end
 end
