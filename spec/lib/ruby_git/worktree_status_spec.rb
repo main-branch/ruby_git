@@ -171,6 +171,30 @@ RSpec.describe RubyGit::Worktree do
           worktree.status(**given_options)
         end
       end
+
+      context 'when a path spec is given' do
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run) do |*args, **_options|
+              expect(args).to end_with('--', 'lib')
+            end.and_return(result)
+          )
+          worktree.status('lib')
+        end
+      end
+
+      context 'when multiple path specs are given' do
+        let(:given_options) { { path_spec: 'file_1' } }
+
+        it 'should build the correct command' do
+          expect(worktree).to(
+            receive(:run) do |*args, **_options|
+              expect(args).to end_with('--', 'lib', 'spec')
+            end.and_return(result)
+          )
+          worktree.status('lib', 'spec')
+        end
+      end
     end
   end
 end

@@ -121,6 +121,12 @@ module RubyGit
     # @example worktree = Worktree.open(worktree_path) worktree.status #=>
     #   #<RubyGit::Status::Report ...>
     #
+    # @param path_specs [Array<String>] paths to limit the status to
+    #   (default is all paths)
+    #
+    #   See [git-glossary
+    #   pathspec](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec).
+    #
     # @param untracked_files [:all, :normal, :no] Defines how untracked files will be
     # handled
     #
@@ -140,11 +146,15 @@ module RubyGit
     #
     # @return [RubyGit::Status::Report] the status of the working tree
     #
-    def status(untracked_files: :all, ignored: :no, ignore_submodules: :all)
+    def status(*path_specs, untracked_files: :all, ignored: :no, ignore_submodules: :all) # rubocop:disable Metrics/MethodLength
       command = %w[status --porcelain=v2 --branch --show-stash --ahead-behind --renames -z]
       command << "--untracked-files=#{untracked_files}"
       command << "--ignored=#{ignored}"
       command << "--ignore-submodules=#{ignore_submodules}"
+      unless path_specs.empty?
+        command << '--'
+        command.concat(path_specs)
+      end
       options = { out: StringIO.new, err: StringIO.new }
       status_output = run(*command, **options).stdout
       RubyGit::Status.parse(status_output)
