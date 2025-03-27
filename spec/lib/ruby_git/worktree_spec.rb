@@ -16,6 +16,6 @@ RSpec.describe RubyGit::Worktree do
     subject { worktree.repository }
 
     it { is_expected.to be_a(RubyGit::Repository) }
-    it { is_expected.to have_attributes(path: File.expand_path('./.git')) }
+    it { is_expected.to have_attributes(path: File.realpath('./.git')) }
   end
 end

@@ -97,11 +97,23 @@ module RubyGit
     #
     # @return [RubyGit::Worktree] the Git working tree checked out from the cloned repository
     #
-    def self.clone(repository_url, to_path: '')
-      command = ['clone', '--', repository_url, to_path]
+    def self.clone(repository_url, to_path: nil)
+      command = ['clone', '--', repository_url]
+      command << to_path if to_path
       options = { out: StringIO.new, err: StringIO.new }
-      RubyGit::CommandLine.run(*command, **options)
-      new(to_path)
+      clone_output = RubyGit::CommandLine.run(*command, **options).stderr
+      new(cloned_to(clone_output))
+    end
+
+    # Get path of the cloned worktree from `git clone` stderr output
+    #
+    # @param clone_output [String] the stderr output of the `git clone` command
+    #
+    # @return [String] the path of the cloned worktree
+    #
+    # @api private
+    def self.cloned_to(clone_output)
+      clone_output.match(/Cloning into ['"](.+)['"]\.\.\./)[1]
     end
 
     # Show the working tree and index status
@@ -151,7 +163,7 @@ module RubyGit
         command = %w[rev-parse --git-dir]
         options = { chdir: path, chomp: true, out: StringIO.new, err: StringIO.new }
         # rev-parse path might be relative to the worktree, thus the need to expand it
-        git_dir = File.expand_path(RubyGit::CommandLine.run(*command, **options).stdout, path)
+        git_dir = File.realpath(RubyGit::CommandLine.run(*command, **options).stdout, path)
         Repository.new(git_dir)
       end
     end
@@ -182,7 +194,7 @@ module RubyGit
     def root_path(worktree_path)
       command = %w[rev-parse --show-toplevel]
       options = { chdir: worktree_path, chomp: true, out: StringIO.new, err: StringIO.new }
-      RubyGit::CommandLine.run(*command, **options).stdout
+      File.realpath(RubyGit::CommandLine.run(*command, **options).stdout)
     end
 
     # Run a Git command in this worktree
