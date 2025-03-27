@@ -23,12 +23,13 @@ module RubyGit
     #
     # @example A more complex example
     #   command = %w[rev-parse --show-toplevel]
-    #   options = { chdir: worktree_path, chomp: true, out: StringIO.new, err: StringIO.new }
+    #   options = { git_chdir: worktree_path, chomp: true, out: StringIO.new, err: StringIO.new }
     #   RubyGit::CommandLine.run(*command, **options).stdout #=> "/path/to/working/tree"
     #
     # @param args [Array<String>] the git command and it arguments
-    # @param repository_path [String] the path to the git repository
-    # @param worktree_path [String] the path to the working tree
+    # @param repository_path [String, nil] the path to the git repository
+    # @param worktree_path [String, nil] the path to the working tree
+    # @param git_chdir [String, nil] the path to change to before running the command
     # @param options [Hash<Symbol, Object>] options to pass to the command line runner
     #
     # @return [RubyGit::CommandLine::Result] the result of running the command
@@ -39,11 +40,11 @@ module RubyGit
     # @raise [RubyGit::SignaledError] if the command terminates due to an uncaught signal
     # @raise [RubyGit::ProcessIOError] if an exception is raised while collecting subprocess output
     #
-    def self.run(*args, repository_path: nil, worktree_path: nil, **options)
+    def self.run(*args, repository_path: nil, worktree_path: nil, git_chdir: nil, **options)
       runner = RubyGit::CommandLine::Runner.new(
         env,
         binary_path,
-        global_options(repository_path:, worktree_path:),
+        global_options(repository_path:, worktree_path:, git_chdir:),
         logger
       )
       runner.call(*args, **options)
@@ -70,10 +71,11 @@ module RubyGit
     # The global options that will be set for all git commands
     # @return [Array<String>]
     # @api private
-    def self.global_options(repository_path:, worktree_path:) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def self.global_options(repository_path:, worktree_path:, git_chdir:) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       [].tap do |global_opts|
         global_opts << "--git-dir=#{repository_path}" unless repository_path.nil?
         global_opts << "--work-tree=#{worktree_path}" unless worktree_path.nil?
+        global_opts << '-C' << git_chdir unless git_chdir.nil?
         global_opts << '-c' << 'core.quotePath=true'
         global_opts << '-c' << 'color.ui=false'
         global_opts << '-c' << 'color.advice=false'
