@@ -16,6 +16,29 @@ def make_bare_repository(repository_path)
 end
 
 RSpec.describe RubyGit::Worktree do
+  describe '.clone(url)' do
+    subject { described_class.clone(repository_url) }
+    let(:repository_url) { 'repository.git' }
+
+    around do |example|
+      in_temp_dir do |path|
+        @path = path
+
+        in_dir repository_url do
+          run %w[git init --initial-branch=main]
+        end
+        example.run
+      end
+    end
+
+    let(:expected_worktree_path) { File.realpath(File.join(@path, 'repository')) }
+
+    it 'should return a Worktree object with the correct path' do
+      expect(subject).to be_kind_of(RubyGit::Worktree)
+      expect(subject).to have_attributes(path: expected_worktree_path)
+    end
+  end
+
   describe '.clone(url, to_path: worktree_path)' do
     subject { described_class.clone(repository_url, to_path: worktree_path) }
     let(:tmpdir) { Dir.mktmpdir }

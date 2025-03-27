@@ -27,7 +27,7 @@ module RubyGit
     # @param [String] repository_path the path to the repository
     #
     def initialize(repository_path)
-      @path = File.expand_path(repository_path)
+      @path = File.realpath(repository_path)
     end
   end
 end
