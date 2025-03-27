@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'open3'
-
 module RubyGit
   # The working tree is a directory tree consisting of the checked out files that
   # you are currently working on.
@@ -106,9 +104,64 @@ module RubyGit
       new(to_path)
     end
 
+    # Show the working tree and index status
+    #
+    # @example worktree = Worktree.open(worktree_path) worktree.status #=>
+    #   #<RubyGit::Status::Report ...>
+    #
+    # @param untracked_files [:all, :normal, :no] Defines how untracked files will be
+    # handled
+    #
+    #   See [git-staus
+    #   --untracked-files](https://git-scm.com/docs/git-status#Documentation/git-status.txt---untracked-filesltmodegt).
+    #
+    # @param ignored [:traditional, :matching, :no] Defines how ignored files will be
+    # handled, :no to not include ignored files
+    #
+    #   See [git-staus
+    #   --ignored](https://git-scm.com/docs/git-status#Documentation/git-status.txt---ignoredltmodegt).
+    #
+    # @param ignore_submodules [:all, :dirty, :untracked, :none] Default is :all
+    #
+    #   See [git-staus
+    #   --ignore-submodules](https://git-scm.com/docs/git-status#Documentation/git-status.txt---ignore-submodulesltwhengt).
+    #
+    # @return [RubyGit::Status::Report] the status of the working tree
+    #
+    def status(untracked_files: :all, ignored: :no, ignore_submodules: :all)
+      command = %w[status --porcelain=v2 --branch --show-stash --ahead-behind --renames -z]
+      command << "--untracked-files=#{untracked_files}"
+      command << "--ignored=#{ignored}"
+      command << "--ignore-submodules=#{ignore_submodules}"
+      options = { out: StringIO.new, err: StringIO.new }
+      status_output = run(*command, **options).stdout
+      RubyGit::Status.parse(status_output)
+    end
+
+    # Return the repository associated with the worktree
+    #
+    # @example
+    #   worktree = Worktree.open(worktree_path)
+    #   worktree.repository #=> #<RubyGit::Repository ...>
+    #
+    # @return [RubyGit::Repository] the repository associated with the worktree
+    #
+    def repository
+      @repository ||= begin
+        command = %w[rev-parse --git-dir]
+        options = { chdir: path, chomp: true, out: StringIO.new, err: StringIO.new }
+        # rev-parse path might be relative to the worktree, thus the need to expand it
+        git_dir = File.expand_path(RubyGit::CommandLine.run(*command, **options).stdout, path)
+        Repository.new(git_dir)
+      end
+    end
+
     private
 
     # Create a Worktree object
+    #
+    # @param worktree_path [String] a path anywhere in the worktree
+    #
     # @api private
     #
     def initialize(worktree_path)
@@ -132,25 +185,19 @@ module RubyGit
       RubyGit::CommandLine.run(*command, **options).stdout
     end
 
-    # def run(*command, **options)
-    #   RubyGit::CommandLine.run(*command, worktree_path: path, **options)
-    # end
-
-    # #
-    # # @param untracked_files [Symbol] Can be :all, :normal, :no
-    # # @param ignore_submodules [Symbol] Can be :all, :dirty, :untracked, :none
-    # # @param ignored [Symbol] Can be :traditional, :matching, :no
-    # # @param renames [Boolean] Whether to detect renames
-    # def status(untracked_files:)
-    #   # -z for null-terminated output
-    #   # --porcelain for machine-readable output
-    #   git status --porcelain=v2 --untracked-files --branch --show-stash --ahead-behind --renames -z
-    #   command = ['status', '--porcelain', '--branch', '-z']
-    #   command << '--untracked-files=all' if untracked_files == :all
-    #   command << '--untracked-files=no' if untracked_files == :no
-    #   options = { chdir: path, out: StringIO.new, err: StringIO.new }
-    #   result = RubyGit::CommandLine.run(*command, **options)
-    #   result.stdout
-    # end
+    # Run a Git command in this worktree
+    #
+    # Passes the repository path and worktree path to RubyGit::CommandLine.run
+    #
+    # @param command [Array<String>] the git command to run
+    # @param options [Hash] options to pass to RubyGit::CommandLine.run
+    #
+    # @return [RubyGit::CommandLineResult] the result of the git command
+    #
+    # @api private
+    #
+    def run(*command, **options)
+      RubyGit::CommandLine.run(*command, repository_path: repository.path, worktree_path: path, **options)
+    end
   end
 end
