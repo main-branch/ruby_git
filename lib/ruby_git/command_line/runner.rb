@@ -166,7 +166,7 @@ module RubyGit
         options_hash[:raise_errors] = false
         options = RubyGit::CommandLine::Options.new(logger: logger, **options_hash)
         begin
-          result = ProcessExecuter.run_with_options([env, *build_git_cmd(args)], options)
+          result = run_with_chdir([env, *build_git_cmd(args)], options)
         rescue ProcessExecuter::ProcessIOError => e
           raise RubyGit::ProcessIOError.new(e.message), cause: e.exception.cause
         end
@@ -174,6 +174,39 @@ module RubyGit
       end
 
       private
+
+      # Run command with options with special handling for the `chdir` option on JRuby
+      #
+      # JRuby does not support the `chdir` option in `Process.spawn`. Note that this
+      # workaround means that this library is not thread-safe when using JRuby.
+      #
+      # @param args [Array<String>] the command to run
+      # @param options [RubyGit::CommandLine::Options] the options to pass to `Process.spawn`
+      #
+      # @return [ProcessExecuter::Result] the result of the command
+      #
+      # @api private
+      #
+      def run_with_chdir(args, options)
+        return ProcessExecuter.run_with_options(args, options) unless jruby? && options.chdir != :not_set
+
+        # :nocov: Not executed in MRI Ruby
+        Dir.chdir(options.chdir) do
+          saved_chdir = options.chdir
+          options.merge!(chdir: :not_set)
+          ProcessExecuter.run_with_options(args, options).tap do
+            options.merge!(chdir: saved_chdir)
+          end
+        end
+        # :nocov:
+      end
+
+      # Returns true if running on JRuby
+      #
+      # @return [Boolean]
+      #
+      # @api private
+      def jruby? = RUBY_ENGINE == 'jruby'
 
       # Build the git command line from the available sources to send to `Process.spawn`
       # @return [Array<String>]
