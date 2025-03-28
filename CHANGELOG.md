@@ -1,5 +1,13 @@
 # Change Log
 
+## v0.3.1 (2025-03-28)
+
+[Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.3.0..v0.3.1)
+
+Changes since v0.3.0:
+
+* fbadc20 docs: update the gem description
+
 ## v0.3.0 (2025-03-28)
 
 [Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.2.0..v0.3.0)
