@@ -1,6 +1,7 @@
 # RubyGit
 
-**THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE**
+This project is not complete, but [{file:PLAN.md implementation plan}](PLAN.md) details what is available
+and the order of implementing new features.
 
 [![Gem Version](https://badge.fury.io/rb/ruby_git.svg)](https://badge.fury.io/rb/ruby_git)
 [![Build Status](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml)
