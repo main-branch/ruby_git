@@ -2,6 +2,8 @@
 --hide-void-return
 --markup-provider=redcarpet
 --markup markdown
+--readme README.md
+- PLAN.md
 - CHANGELOG.md
 - CONTRIBUTING.md
 - RELEASING.md
