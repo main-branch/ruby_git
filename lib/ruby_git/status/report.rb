@@ -60,6 +60,84 @@ module RubyGit
         @stash = stash
         @entries = entries
       end
+
+      # The entries that are ignored
+      #
+      # @example
+      #   report.ignored #=> [#<RubyGit::Status::IgnoredEntry ...>, ...]
+      #
+      # @return [Array<IgnoredEntry>]
+      #
+      def ignored
+        entries.select(&:ignored?)
+      end
+
+      # The entries that are untracked
+      #
+      # @example
+      #   report.untracked #=> [#<RubyGit::Status::UntrackedEntry ...>, ...]
+      #
+      # @return [Array<UntrackedEntry>]
+      #
+      def untracked
+        entries.select(&:untracked?)
+      end
+
+      # The entries that have unstaged changes
+      #
+      # @example
+      #   report.unstaged #=> [#<RubyGit::Status::OrdinaryEntry ...>, ...]
+      #
+      # @return [Array<UntrackedEntry, OrdinaryEntry, RenamedEntry>]
+      #
+      def unstaged
+        entries.select(&:unstaged?)
+      end
+
+      # The entries that have staged changes
+      #
+      # @example
+      #   report.staged #=> [#<RubyGit::Status::OrdinaryEntry ...>, ...]
+      #
+      # @return [Array<UntrackedEntry, OrdinaryEntry, RenamedEntry>]
+      #
+      def staged
+        entries.select(&:staged?)
+      end
+
+      # The entries that have staged changes and no unstaged changes
+      #
+      # @example
+      #   report.fully_staged #=> [#<RubyGit::Status::OrdinaryEntry ...>, ...]
+      #
+      # @return [Array<UntrackedEntry, OrdinaryEntry, RenamedEntry>]
+      #
+      def fully_staged
+        entries.select(&:fully_staged?)
+      end
+
+      # The entries that represent merge conflicts
+      #
+      # @example
+      #   report.unmerged #=> [#<RubyGit::Status::UnmergedEntry ...>, ...]
+      #   report.merge_conflicts? #=> true
+      #
+      # @return [Array<UnmergedEntry>]
+      #
+      def unmerged
+        entries.select(&:unmerged?)
+      end
+
+      # Are there any unmerged entries?
+      #
+      # @example
+      #   report.merge_conflicts? #=> true
+      #
+      # @return [Boolean]
+      #
+      def merge_conflict?
+        unmerged.any?
+      end
     end
   end
 end

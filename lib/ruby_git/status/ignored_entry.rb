@@ -31,6 +31,14 @@ module RubyGit
       def initialize(path:)
         super(path)
       end
+
+      # Is the entry an ignored file?
+      # @example
+      #   entry.ignored? #=> false
+      # @return [Boolean]
+      def ignored?
+        true
+      end
     end
   end
 end

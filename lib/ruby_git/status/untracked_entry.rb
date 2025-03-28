@@ -31,6 +31,22 @@ module RubyGit
       def initialize(path:)
         super(path)
       end
+
+      # Is the entry an untracked file?
+      # @example
+      #   entry.ignored? #=> false
+      # @return [Boolean]
+      def untracked? = true
+
+      # Does the entry have unstaged changes in the worktree?
+      #
+      # * An entry can have both staged and unstaged changes
+      # * All untracked entries are considered unstaged
+      #
+      # @example
+      #   entry.ignored? #=> false
+      # @return [Boolean]
+      def unstaged? = true
     end
   end
 end

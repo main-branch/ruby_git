@@ -179,6 +179,29 @@ module RubyGit
         @head_sha = head_sha
         @index_sha = index_sha
       end
+
+      # Does the entry have unstaged changes in the worktree?
+      #
+      # * An entry can have both staged and unstaged changes
+      # * All untracked entries are considered unstaged
+      #
+      # @example
+      #   entry.ignored? #=> false
+      # @return [Boolean]
+      def unstaged?
+        worktree_status != :unmodified
+      end
+
+      # Does the entry have staged changes in the index?
+      #
+      # * An entry can have both staged and unstaged changes
+      #
+      # @example
+      #   entry.ignored? #=> false
+      # @return [Boolean]
+      def staged?
+        index_status != :unmodified
+      end
     end
   end
 end
