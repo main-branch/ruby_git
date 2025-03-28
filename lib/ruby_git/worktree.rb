@@ -146,18 +146,55 @@ module RubyGit
     #
     # @return [RubyGit::Status::Report] the status of the working tree
     #
-    def status(*path_specs, untracked_files: :all, ignored: :no, ignore_submodules: :all) # rubocop:disable Metrics/MethodLength
+    def status(*path_specs, untracked_files: :all, ignored: :no, ignore_submodules: :all)
       command = %w[status --porcelain=v2 --branch --show-stash --ahead-behind --renames -z]
       command << "--untracked-files=#{untracked_files}"
       command << "--ignored=#{ignored}"
       command << "--ignore-submodules=#{ignore_submodules}"
-      unless path_specs.empty?
-        command << '--'
-        command.concat(path_specs)
-      end
+      command << '--' unless path_specs.empty?
+      command.concat(path_specs)
       options = { out: StringIO.new, err: StringIO.new }
       status_output = run(*command, **options).stdout
       RubyGit::Status.parse(status_output)
+    end
+
+    # Add changed files to the index to stage for the next commit
+    #
+    # @example
+    #   worktree = Worktree.open(worktree_path)
+    #   worktree.add('file1.txt', 'file2.txt')
+    #   worktree.add('.')
+    #   worktree.add(all: true)
+    #
+    # @param pathspecs [Array<String>] paths to add to the index
+    # @param all [Boolean] adds, updates, and removes index entries to match the working tree (entire repo)
+    # @param force [Boolean] add files even if they are ignored
+    # @param refresh [Boolean] only refresh each files stat information in the index
+    # @param update [Boolean] add all updated and deleted files to the index but does not add any files
+    #
+    # @see https://git-scm.com/docs/git-add git-add
+    #
+    # @return [RubyGit::CommandLineResult] the result of the git add command
+    #
+    # @raise [ArgumentError] if any of the options are not valid
+    #
+    def add(*pathspecs, all: false, force: false, refresh: false, update: false) # rubocop:disable Metrics/MethodLength
+      validate_boolean_option(name: :all, value: all)
+      validate_boolean_option(name: :force, value: force)
+      validate_boolean_option(name: :refresh, value: refresh)
+      validate_boolean_option(name: :update, value: update)
+
+      command = %w[add]
+      command << '--all' if all
+      command << '--force' if force
+      command << '--update' if update
+      command << '--refresh' if refresh
+      command << '--' unless pathspecs.empty?
+      command.concat(pathspecs)
+
+      options = { out: StringIO.new, err: StringIO.new }
+
+      run(*command, **options)
     end
 
     # Return the repository associated with the worktree
@@ -220,6 +257,21 @@ module RubyGit
     #
     def run(*command, **options)
       RubyGit::CommandLine.run(*command, repository_path: repository.path, worktree_path: path, **options)
+    end
+
+    # Raise an error if an option is not a Boolean (or optionally nil) value
+    # @param name [String] the name of the option
+    # @param value [Object] the value of the option
+    # @param nullable [Boolean] whether the option can be nil (default is false)
+    # @return [void]
+    # @raise [ArgumentError] if the option is not a Boolean (or optionally nil) value
+    # @api private
+    def validate_boolean_option(name:, value:, nullable: false)
+      return if nullable && value.nil?
+
+      return if [true, false].include?(value)
+
+      raise ArgumentError, "The '#{name}:' option must be a Boolean value but was #{value.inspect}"
     end
   end
 end
