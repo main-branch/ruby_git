@@ -232,6 +232,17 @@ module RubyGit
         @their_sha = their_sha
         @path = path
       end
+
+      # Does the entry represent a merge conflict?
+      #
+      # * Merge conflicts are not considered untracked, staged or unstaged
+      #
+      # @example
+      #   entry.conflict? #=> false
+      #
+      # @return [Boolean]
+      #
+      def unmerged? = true
     end
   end
 end

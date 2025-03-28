@@ -85,11 +85,78 @@ module RubyGit
       # Get the worktree status
       #
       # @example
-      #   entry.worktree_status #=> :unchanged
+      #   entry.worktree_status #=> :unmodified
       #
       # @return [Symbol, nil] worktree status symbol or nil if not applicable
       #
       def worktree_status = nil
+
+      # Is the entry an ignored file?
+      #
+      # * Ignored entries are not considered untracked
+      #
+      # @example
+      #   entry.ignored? #=> false
+      #
+      # @return [Boolean]
+      #
+      def ignored? = false
+
+      # Is the entry an untracked file?
+      #
+      # * Ignored entries are not considered untracked
+      #
+      # @example
+      #   entry.ignored? #=> false
+      #
+      # @return [Boolean]
+      #
+      def untracked? = false
+
+      # Does the entry have unstaged changes in the worktree?
+      #
+      # * An entry can have both staged and unstaged changes
+      # * All untracked entries are considered unstaged
+      #
+      # @example
+      #   entry.ignored? #=> false
+      #
+      # @return [Boolean]
+      #
+      def unstaged? = false
+
+      # Does the entry have staged changes in the index?
+      #
+      # * An entry can have both staged and unstaged changes
+      #
+      # @example
+      #   entry.ignored? #=> false
+      #
+      # @return [Boolean]
+      #
+      def staged? = false
+
+      # Does the entry have staged changes in the index with no unstaged changes?
+      #
+      # * An entry can have both staged and unstaged changes
+      #
+      # @example
+      #   entry.fully_staged? #=> false
+      #
+      # @return [Boolean]
+      #
+      def fully_staged? = staged? && !unstaged?
+
+      # Does the entry represent a merge conflict?
+      #
+      # * Merge conflicts are not considered untracked, staged or unstaged
+      #
+      # @example
+      #   entry.conflict? #=> false
+      #
+      # @return [Boolean]
+      #
+      def unmerged? = false
     end
   end
 end

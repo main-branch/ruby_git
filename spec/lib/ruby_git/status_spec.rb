@@ -294,5 +294,89 @@ RSpec.describe RubyGit::Status do
         expect { subject }.not_to raise_error
       end
     end
+
+    describe 'filters' do
+      let(:data) do
+        '1 M. N... 000000 100644 100644 0000000000000000000000000000000000000000 ' \
+          "49351eb5b7e355128f8f569d5b3355c3e2a51d4b file1.txt\u0000" \
+          '1 MM N... 000000 100644 100644 0000000000000000000000000000000000000000 ' \
+          "49351eb5b7e355128f8f569d5b3355c3e2a51d4b file2.txt\u0000" \
+          '1 .M N... 000000 100644 100644 0000000000000000000000000000000000000000 ' \
+          "49351eb5b7e355128f8f569d5b3355c3e2a51d4b file3.txt\u0000" \
+          '2 RD N... 100644 100755 000000 1111111111111111111111111111111111111111 ' \
+          "2222222222222222222222222222222222222222 R100 file4.txt\u0000" \
+          "file4_old.txt\u0000" \
+          '2 R. N... 100644 100755 000000 1111111111111111111111111111111111111111 ' \
+          "2222222222222222222222222222222222222222 R100 file5.txt\u0000" \
+          "file5_old.txt\u0000" \
+          'u UU N... 100644 100755 000000 100755 ' \
+          '1111111111111111111111111111111111111111 2222222222222222222222222222222222222222 ' \
+          '3333333333333333333333333333333333333333 file6.txt' \
+          "\u0000" \
+          "? file7.txt\u0000" \
+          "? file8.txt\u0000" \
+          "! file9.txt\u0000"
+      end
+
+      describe '#ignored' do
+        subject { report.ignored }
+        it 'should return the ignored entries' do
+          expect(subject.map(&:path)).to eq(%w[file9.txt])
+        end
+      end
+
+      describe '#untracked' do
+        subject { report.untracked }
+        it 'should return the untracked entries' do
+          expect(subject.map(&:path)).to eq(%w[file7.txt file8.txt])
+        end
+      end
+
+      describe '#unstaged' do
+        subject { report.unstaged }
+        it 'should return the unstaged entries' do
+          expect(subject.map(&:path)).to eq(%w[file2.txt file3.txt file4.txt file7.txt file8.txt])
+        end
+      end
+
+      describe '#staged' do
+        subject { report.staged }
+        it 'should return the staged entries' do
+          expect(subject.map(&:path)).to eq(%w[file1.txt file2.txt file4.txt file5.txt])
+        end
+      end
+
+      describe '#fully_staged' do
+        subject { report.fully_staged }
+        it 'should return the fully staged entries' do
+          expect(subject.map(&:path)).to eq(%w[file1.txt file5.txt])
+        end
+      end
+
+      describe '#unmerged' do
+        subject { report.unmerged }
+        it 'should return the unmerged entries' do
+          expect(subject.map(&:path)).to eq(%w[file6.txt])
+        end
+      end
+    end
+
+    describe '#merge_conflict?' do
+      subject { report.merge_conflict? }
+      context 'when there is a merge conflict' do
+        let(:data) do
+          'u UU N... 100644 100755 000000 100755 ' \
+            '1111111111111111111111111111111111111111 2222222222222222222222222222222222222222 ' \
+            '3333333333333333333333333333333333333333 file6.txt'
+        end
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'when there is not a merge conflict' do
+        let(:data) { '' }
+        it { is_expected.to eq(false) }
+      end
+    end
   end
 end
