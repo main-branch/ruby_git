@@ -9,12 +9,10 @@ Gem::Specification.new do |spec|
   spec.email         = ['jcouball@yahoo.com']
   spec.license       = 'MIT'
 
-  spec.summary       = 'A Ruby library to work with Git Respositories'
+  spec.summary       = 'An object-oriented interface to working with the git command line'
   spec.description   = <<~DESCRIPTION
-    THIS PROJECT IS A WORK IN PROGRESS AND IS NOT USEFUL IN ITS CURRENT STATE
-
-    An object-oriented interface to working with Git Repositories that
-    tries to make sense out of the Git command line.
+    An object-oriented interface to the git command line. See PLAN.md for
+    project progress.
   DESCRIPTION
   spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
   spec.requirements = [
