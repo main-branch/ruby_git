@@ -132,7 +132,64 @@ class String
   end
 end
 
+class Array
+  # Return a new array with old_value replaced with new_value
+  #
+  # @example
+  #   array = [1, 2, 3]
+  #   array.sub(2, 4) #=> [1, 4, 3]
+  #
+  # @param old_value [Object] The value to replace
+  # @param new_value [Object] The value to replace with
+  #
+  # @return [Array] A new array with the replaced value
+  #
+  def sub(old_value, new_value)
+    dup.tap do |new_array|
+      if (i = new_array.index(old_value))
+        new_array[i] = new_value
+      end
+    end
+  end
+end
+
 def eol = windows? ? "\r\n" : "\n"
+
+# RSpec shared example for testing that a subject will call the git command line
+# with the expected command and options.
+#
+# Must define the following context:
+#   * subject - the subject of the test
+#   * subject_object - the object that will receive the run_with_context method that will be mocked
+#   * result - the result of the command
+#
+# Assumes that the subject will call #run_with_context with the command and options.
+#
+# @example
+#   let(:subject) { worktree.add('file1.txt', 'file2.txt') }
+#   let(:subject_object) { worktree }
+#   let(:result) { instance_double(RubyGit::CommandLine::Result, stdout: '') }
+#   it_behaves_line 'it runs the git command', [%w[add -- file1.txt]]
+#
+RSpec.shared_examples 'it runs the git command' do |command, options = Hash|
+  it 'should build the correct command' do
+    if options.is_a?(Hash)
+      # If specific options are given, double splat them into the argument list
+      # binding.irb
+      expect(subject_object).to(
+        receive(:run_with_context).with(*command, **options)
+      ).and_return(result)
+    else
+      # Otherwise assume options is a RSpec construct
+      # binding.irb
+      expect(subject_object).to(
+        receive(:run_with_context).with(*command, options)
+      ).and_return(result)
+    end
+
+    subject
+  end
+end
 
 SimpleCov::RSpec.start(list_uncovered_lines: ci_build?)
 
