@@ -113,87 +113,49 @@ RSpec.describe RubyGit::Worktree do
     end
 
     context 'building the right status command' do
+      subject { worktree.status(*given_args, **given_options) }
+
+      let(:given_args) { [] }
       let(:given_options) { {} }
 
+      let(:subject_object) { worktree }
       let(:result) { instance_double(RubyGit::CommandLine::Result, stdout: '') }
 
+      base_command =
+        %w[status --porcelain=v2
+           --branch --show-stash --ahead-behind --renames -z
+           --untracked-files=all --ignored=no --ignore-submodules=all]
+
       context 'when no options are given' do
-        let(:expected_command) do
-          %w[status --porcelain=v2
-             --branch --show-stash --ahead-behind --renames -z
-             --untracked-files=all --ignored=no --ignore-submodules=all]
-        end
-
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run).with(*expected_command, Hash)
-          ).and_return(result)
-
-          worktree.status(**given_options)
-        end
+        it_behaves_like 'it runs the git command', [base_command]
       end
 
       context 'when a non-default untracked_files is given' do
         let(:given_options) { { untracked_files: :normal } }
-
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run) do |*args, **_options|
-              expect(args).to include('--untracked-files=normal')
-            end.and_return(result)
-          )
-          worktree.status(**given_options)
-        end
+        expected_command = base_command.sub('--untracked-files=all', '--untracked-files=normal')
+        it_behaves_like 'it runs the git command', [expected_command]
       end
 
       context 'when ignored is given' do
         let(:given_options) { { ignored: :matching } }
-
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run) do |*args, **_options|
-              expect(args).to include('--ignored=matching')
-            end.and_return(result)
-          )
-          worktree.status(**given_options)
-        end
+        expected_command = base_command.sub('--ignored=no', '--ignored=matching')
+        it_behaves_like 'it runs the git command', [expected_command]
       end
 
       context 'when ignore_submodules is given' do
         let(:given_options) { { ignore_submodules: :dirty } }
-
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run) do |*args, **_options|
-              expect(args).to include('--ignore-submodules=dirty')
-            end.and_return(result)
-          )
-          worktree.status(**given_options)
-        end
+        expected_command = base_command.sub('--ignore-submodules=all', '--ignore-submodules=dirty')
+        it_behaves_like 'it runs the git command', [expected_command]
       end
 
       context 'when a path spec is given' do
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run) do |*args, **_options|
-              expect(args).to end_with('--', 'lib')
-            end.and_return(result)
-          )
-          worktree.status('lib')
-        end
+        let(:given_args) { ['lib'] }
+        it_behaves_like 'it runs the git command', [[*base_command, '--', 'lib']]
       end
 
       context 'when multiple path specs are given' do
-        let(:given_options) { { path_spec: 'file_1' } }
-
-        it 'should build the correct command' do
-          expect(worktree).to(
-            receive(:run) do |*args, **_options|
-              expect(args).to end_with('--', 'lib', 'spec')
-            end.and_return(result)
-          )
-          worktree.status('lib', 'spec')
-        end
+        let(:given_args) { %w[lib spec] }
+        it_behaves_like 'it runs the git command', [[*base_command, '--', 'lib', 'spec']]
       end
     end
   end

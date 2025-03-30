@@ -11,8 +11,8 @@ RSpec.describe RubyGit::Worktree do
     context 'when worktree_path does not exist' do
       let(:worktree_path) { tmpdir }
       before { FileUtils.rmdir(worktree_path) }
-      it 'should  raise RubyGit::Error' do
-        expect { subject }.to raise_error(RubyGit::Error)
+      it 'should  raise ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError)
       end
     end
 
@@ -22,15 +22,15 @@ RSpec.describe RubyGit::Worktree do
         FileUtils.rmdir(worktree_path)
         FileUtils.touch(worktree_path)
       end
-      it 'should raise RubyGit::Error' do
-        expect { subject }.to raise_error(RubyGit::Error)
+      it 'should raise ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError)
       end
     end
 
     context 'when worktree_path exists but is not a git working tree' do
       let(:worktree_path) { tmpdir }
-      it 'should raise RubyGit::Error' do
-        expect { subject }.to raise_error(RubyGit::Error, /not a git repository/)
+      it 'should raise ArgumentError' do
+        expect { subject }.to raise_error(ArgumentError, /not a git repository/)
       end
     end
 
