@@ -7,6 +7,9 @@ module RubyGit
   # Create a new Worktree using {.init}, {.clone}, or {.open}.
   #
   class Worktree
+    extend RubyGit::OptionValidators
+    include RubyGit::OptionValidators
+
     # The root path of the working tree
     #
     # @example
@@ -28,18 +31,29 @@ module RubyGit
     # @example
     #   worktree = Worktree.init(worktree_path)
     #
-    # @param [String] worktree_path the root path of a Git working tree
+    # @param worktree_path [String] the root path of a Git working tree
+    # @param initial_branch [String] the initial branch in the newly created repository
     #
-    # @raise [RubyGit::Error] if worktree_path is not a directory
+    # @raise [ArgumentError] if worktree_path does not exist or is not a directory
+    # @raise [RubyGit::Error] if there is an error initializing the repository
     #
     # @return [RubyGit::Worktree] the working tree whose root is at `path`
     #
-    def self.init(worktree_path)
-      raise RubyGit::Error, "Path '#{worktree_path}' not valid." unless File.directory?(worktree_path)
+    def self.init(worktree_path, initial_branch: nil) # rubocop:disable Metrics/MethodLength
+      validate_string_option(name: :initial_branch, value: initial_branch, nullable: true)
 
       command = ['init']
+      command << '--initial-branch' << initial_branch unless initial_branch.nil?
+
       options = { chdir: worktree_path, out: StringIO.new, err: StringIO.new }
-      RubyGit::CommandLine.run(*command, **options)
+
+      begin
+        RubyGit::CommandLine.run(*command, **options)
+      rescue Errno::ENOENT
+        raise ArgumentError, "Directory '#{worktree_path}' does not exist."
+      rescue Errno::ENOTDIR
+        raise ArgumentError, "Path '#{worktree_path}' is not a directory."
+      end
 
       new(worktree_path)
     end
@@ -299,21 +313,6 @@ module RubyGit
     #
     def run_with_context(*command, **options)
       RubyGit::CommandLine.run(*command, repository_path: repository.path, worktree_path: path, **options)
-    end
-
-    # Raise an error if an option is not a Boolean (or optionally nil) value
-    # @param name [String] the name of the option
-    # @param value [Object] the value of the option
-    # @param nullable [Boolean] whether the option can be nil (default is false)
-    # @return [void]
-    # @raise [ArgumentError] if the option is not a Boolean (or optionally nil) value
-    # @api private
-    def validate_boolean_option(name:, value:, nullable: false)
-      return if nullable && value.nil?
-
-      return if [true, false].include?(value)
-
-      raise ArgumentError, "The '#{name}:' option must be a Boolean value but was #{value.inspect}"
     end
   end
 end
