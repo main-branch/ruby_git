@@ -173,6 +173,10 @@ def eol = windows? ? "\r\n" : "\n"
 #
 RSpec.shared_examples 'it runs the git command' do |command, options = Hash|
   it 'should build the correct command' do
+    allow_any_instance_of(described_class).to(
+      receive(:normalize_path) { |_, path| path }
+    )
+
     if options.is_a?(Hash)
       # If specific options are given, double splat them into the argument list
       # binding.irb
@@ -188,6 +192,16 @@ RSpec.shared_examples 'it runs the git command' do |command, options = Hash|
     end
 
     subject
+  end
+end
+
+RSpec.shared_examples 'it raises an ArgumentError' do |message|
+  it 'should raise an Argument' do
+    allow_any_instance_of(described_class).to(
+      receive(:normalize_path) { |_, path| path }
+    )
+
+    expect { subject }.to(raise_error(ArgumentError, message))
   end
 end
 

@@ -34,14 +34,14 @@ module RubyGit
     #
     # @return [RubyGit::Worktree] the working tree whose root is at `path`
     #
-    def self.init(worktree_path, normalize_path: true)
+    def self.init(worktree_path)
       raise RubyGit::Error, "Path '#{worktree_path}' not valid." unless File.directory?(worktree_path)
 
       command = ['init']
       options = { chdir: worktree_path, out: StringIO.new, err: StringIO.new }
       RubyGit::CommandLine.run(*command, **options)
 
-      new(worktree_path, normalize_path:)
+      new(worktree_path)
     end
 
     # Open an existing Git working tree that contains worktree_path
@@ -58,8 +58,8 @@ module RubyGit
     #
     # @return [RubyGit::Worktree] the Git working tree that contains `worktree_path`
     #
-    def self.open(worktree_path, normalize_path: true)
-      new(worktree_path, normalize_path:)
+    def self.open(worktree_path)
+      new(worktree_path)
     end
 
     # Copy the remote repository and checkout the default branch
@@ -97,12 +97,12 @@ module RubyGit
     #
     # @return [RubyGit::Worktree] the Git working tree checked out from the cloned repository
     #
-    def self.clone(repository_url, to_path: nil, normalize_path: true)
+    def self.clone(repository_url, to_path: nil)
       command = ['clone', '--', repository_url]
       command << to_path if to_path
       options = { out: StringIO.new, err: StringIO.new }
       clone_output = RubyGit::CommandLine.run(*command, **options).stderr
-      new(cloned_to(clone_output), normalize_path:)
+      new(cloned_to(clone_output))
     end
 
     # Show the working tree and index status
@@ -195,21 +195,27 @@ module RubyGit
     # @return [RubyGit::Repository] the repository associated with the worktree
     #
     def repository
-      @repository ||= begin
-        command = %w[rev-parse --git-dir]
-        options = { chdir: path, chomp: true, out: StringIO.new, err: StringIO.new }
-        # rev-parse path might be relative to the worktree, thus the need to expand it
-        git_dir = File.realpath(RubyGit::CommandLine.run(*command, **options).stdout, path)
-        Repository.new(git_dir, normalize_path: normalize_path?)
-      end
+      @repository ||= Repository.new(repository_path)
     end
 
     private
 
+    # The path to the repository associated with this worktree
+    #
+    # @return [String]
+    #
+    # @api private
+    #
+    def repository_path
+      command = %w[rev-parse --git-dir]
+      options = { chdir: path, chomp: true, out: StringIO.new, err: StringIO.new }
+      # rev-parse path might be relative to the worktree, thus the need to expand it
+      File.realpath(RubyGit::CommandLine.run(*command, **options).stdout, path)
+    end
+
     # Create a Worktree object
     #
     # @param worktree_path [String] a path anywhere in the worktree
-    # @param normalize_path [Boolean] if true, path is converted to an absolute path to the root of the working tree
     #
     #   The purpose of this flag is to allow tests to not have to mock the
     #   normalization of the path. This allows testing that the right git command
@@ -221,16 +227,8 @@ module RubyGit
     # @return [RubyGit::Worktree] the worktree whose root is at `path`
     # @api private
     #
-    def initialize(worktree_path, normalize_path: true)
-      @normalize_path = normalize_path
-
-      @path =
-        if normalize_path?
-          normalize_worktree_path(worktree_path)
-        else
-          worktree_path
-        end
-
+    def initialize(worktree_path)
+      @path = normalize_path(worktree_path)
       RubyGit.logger.debug("Created #{inspect}")
     end
 
@@ -244,17 +242,6 @@ module RubyGit
     private_class_method def self.cloned_to(clone_output)
       clone_output.match(/Cloning into ['"](.+)['"]\.\.\./)[1]
     end
-
-    # True if the path should be normalized
-    #
-    # This means that the path should be expanded and converted to a absolute, real
-    # path to the working tree root dir.
-    #
-    # @return [Boolean]
-    #
-    # @api private
-    #
-    def normalize_path? = @normalize_path
 
     # Return the absolute path to the root of the working tree containing path
     #
@@ -274,7 +261,7 @@ module RubyGit
     #
     # @api private
     #
-    def normalize_worktree_path(path)
+    def normalize_path(path)
       raise ArgumentError, "Directory '#{path}' does not exist." unless File.directory?(path)
 
       begin
