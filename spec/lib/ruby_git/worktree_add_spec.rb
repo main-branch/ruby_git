@@ -33,7 +33,7 @@ RSpec.describe RubyGit::Worktree do
     end
 
     describe 'calling the git add command line' do
-      let(:worktree) { described_class.new(worktree_path, normalize_path: false) }
+      let(:worktree) { described_class.new(worktree_path) }
       let(:worktree_path) { '/some/worktree_path' } # Dummy path for testing
 
       let(:subject_object) { worktree } # for the it_behaves_like 'it runs the git command'
@@ -79,11 +79,7 @@ RSpec.describe RubyGit::Worktree do
           let(:pathspecs) { [] }
           let(:options) { { all: 'invalid' } }
 
-          it 'should raise an error' do
-            expect { subject }.to(
-              raise_error(ArgumentError, %(The 'all:' option must be a Boolean value but was "invalid"))
-            )
-          end
+          it_behaves_like 'it raises an ArgumentError', %(The 'all:' option must be a Boolean value but was "invalid")
         end
       end
 
@@ -106,11 +102,10 @@ RSpec.describe RubyGit::Worktree do
           let(:pathspecs) { [] }
           let(:options) { { force: 'invalid' } }
 
-          it 'should raise an error' do
-            expect { subject }.to(
-              raise_error(ArgumentError, %(The 'force:' option must be a Boolean value but was "invalid"))
-            )
-          end
+          it_behaves_like(
+            'it raises an ArgumentError',
+            %(The 'force:' option must be a Boolean value but was "invalid")
+          )
         end
       end
 
@@ -133,11 +128,10 @@ RSpec.describe RubyGit::Worktree do
           let(:pathspecs) { [] }
           let(:options) { { update: 'invalid' } }
 
-          it 'should raise an error' do
-            expect { subject }.to(
-              raise_error(ArgumentError, %(The 'update:' option must be a Boolean value but was "invalid"))
-            )
-          end
+          it_behaves_like(
+            'it raises an ArgumentError',
+            %(The 'update:' option must be a Boolean value but was "invalid")
+          )
         end
       end
 
@@ -160,11 +154,10 @@ RSpec.describe RubyGit::Worktree do
           let(:pathspecs) { [] }
           let(:options) { { refresh: 'invalid' } }
 
-          it 'should raise an error' do
-            expect { subject }.to(
-              raise_error(ArgumentError, %(The 'refresh:' option must be a Boolean value but was "invalid"))
-            )
-          end
+          it_behaves_like(
+            'it raises an ArgumentError',
+            %(The 'refresh:' option must be a Boolean value but was "invalid")
+          )
         end
       end
     end

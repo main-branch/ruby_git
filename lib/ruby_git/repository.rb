@@ -25,7 +25,6 @@ module RubyGit
     #   RubyGit::Repository.new('/path/to/repository') #=> #<RubyGit::Repository ...>
     #
     # @param [String] repository_path the path to the repository
-    # @param normalize_path [Boolean] if true, path is converted to an absolute path to the root of the working tree
     #
     #   The purpose of this flag is to allow tests to not have to mock the
     #   normalization of the path. This allows testing that the right git command
@@ -33,23 +32,11 @@ module RubyGit
     #
     # @raise [ArgumentError] if the path is not a directory
     #
-    def initialize(repository_path, normalize_path: true)
-      @normalize_path = normalize_path
-
-      @path =
-        if normalize_path?
-          normalize_path(repository_path)
-        else
-          repository_path
-        end
+    def initialize(repository_path)
+      @path = normalize_path(repository_path)
     end
 
     private
-
-    # true if the path should be expanded and converted to a absolute, real path
-    # @return [Boolean]
-    # @api private
-    def normalize_path? = @normalize_path
 
     # Expand and convert the given path to an absolute, real path
     #
