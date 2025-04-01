@@ -20,8 +20,10 @@ RSpec.describe RubyGit::Worktree do
       context 'when worktree_path does not exist' do
         let(:worktree_path) { File.join(tmpdir, 'subdir') }
 
-        it 'should raise an ArgumentError' do
-          expect { subject }.to raise_error(ArgumentError)
+        expected_error = truffleruby? ? RubyGit::FailedError : RubyGit::SpawnError
+
+        it "should raise an error #{expected_error}" do
+          expect { subject }.to raise_error(expected_error)
         end
       end
 
@@ -32,8 +34,11 @@ RSpec.describe RubyGit::Worktree do
             FileUtils.rmdir(worktree_path)
             FileUtils.touch(worktree_path)
           end
-          it 'should raise an ArgumentError' do
-            expect { subject }.to raise_error(ArgumentError)
+
+          expected_error = truffleruby? ? RubyGit::FailedError : RubyGit::SpawnError
+
+          it "should raise a #{expected_error} " do
+            expect { subject }.to raise_error(expected_error)
           end
         end
 

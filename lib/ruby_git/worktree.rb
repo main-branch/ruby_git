@@ -39,7 +39,7 @@ module RubyGit
     #
     # @return [RubyGit::Worktree] the working tree whose root is at `path`
     #
-    def self.init(worktree_path, initial_branch: nil) # rubocop:disable Metrics/MethodLength
+    def self.init(worktree_path, initial_branch: nil)
       validate_string_option(name: :initial_branch, value: initial_branch, nullable: true)
 
       command = ['init']
@@ -47,13 +47,7 @@ module RubyGit
 
       options = { chdir: worktree_path, out: StringIO.new, err: StringIO.new }
 
-      begin
-        RubyGit::CommandLine.run(*command, **options)
-      rescue Errno::ENOENT
-        raise ArgumentError, "Directory '#{worktree_path}' does not exist."
-      rescue Errno::ENOTDIR
-        raise ArgumentError, "Path '#{worktree_path}' is not a directory."
-      end
+      RubyGit::CommandLine.run(*command, **options)
 
       new(worktree_path)
     end
