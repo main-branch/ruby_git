@@ -21,6 +21,7 @@ module RubyGit
   #     │   └─> RubyGit::SignaledError
   #     │       └─> RubyGit::TimeoutError
   #     ├─> RubyGit::ProcessIOError
+  #     ├─> RubyGit::SpawnError
   #     └─> RubyGit::UnexpectedResultError
   # ```
   #
@@ -32,6 +33,7 @@ module RubyGit
   # | `SignaledError` | This error is raised when the git command line is terminated as a result of receiving a signal. This could happen if the process is forcibly terminated or if there is a serious system error. |
   # | `TimeoutError` | This is a specific type of `SignaledError` that is raised when the git command line operation times out and is killed via the SIGKILL signal. This happens if the operation takes longer than the timeout duration configured in `Git.config.timeout` or via the `:timeout` parameter given in git methods that support timeouts. |
   # | `ProcessIOError` | An error was encountered reading or writing to a subprocess. |
+  # | `SpawnError` | An error was encountered when spawning a subprocess and it never started. |
   # | `UnexpectedResultError` | The command line ran without error but did not return the expected results. |
   #
   # @example Rescuing a generic error
@@ -166,4 +168,10 @@ module RubyGit
   # @api public
   #
   class UnexpectedResultError < RubyGit::Error; end
+
+  # Raised when the git command could not be spawned
+  #
+  # @api public
+  #
+  class SpawnError < RubyGit::Error; end
 end
