@@ -187,18 +187,37 @@ module RubyGit
       #
       # @api private
       #
-      def run_with_chdir(args, options)
-        return ProcessExecuter.run_with_options(args, options) unless jruby? && options.chdir != :not_set
+      def run_with_chdir(args, options) # rubocop:disable Metrics/MethodLength
+        return run_and_handle_spawn_error(args, options) unless jruby? && options.chdir != :not_set
 
         # :nocov: Not executed in MRI Ruby
-        Dir.chdir(options.chdir) do
-          saved_chdir = options.chdir
-          options.merge!(chdir: :not_set)
-          ProcessExecuter.run_with_options(args, options).tap do
-            options.merge!(chdir: saved_chdir)
+        begin
+          Dir.chdir(options.chdir) do
+            saved_chdir = options.chdir
+            options.merge!(chdir: :not_set)
+            run_and_handle_spawn_error(args, options).tap do
+              options.merge!(chdir: saved_chdir)
+            end
           end
+        rescue Errno::ENOENT, Errno::ENOTDIR => e
+          raise RubyGit::SpawnError, "chdir(#{options.chdir}) failed: #{e.message}"
         end
         # :nocov:
+      end
+
+      # Catch ProcessExecuter::SpawnError and raise a RubyGit::SpawnError in its place
+      #
+      # @param args [Array<String>] the command to run
+      # @param options [RubyGit::CommandLine::Options] the options to pass to `Process.spawn`
+      #
+      # @return [ProcessExecuter::Result] the result of the command
+      #
+      # @api private
+      #
+      def run_and_handle_spawn_error(args, options)
+        ProcessExecuter.run_with_options(args, options)
+      rescue ProcessExecuter::SpawnError => e
+        raise RubyGit::SpawnError, e.message
       end
 
       # Returns true if running on JRuby
