@@ -56,7 +56,7 @@ Gem::Specification.new do |spec|
     spec.add_development_dependency 'yardstick', '~> 0.9'
   end
 
-  spec.add_dependency 'process_executer', '~> 3.0'
+  spec.add_dependency 'process_executer', '~> 3.2'
   spec.add_dependency 'rchardet', '~> 1.9'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
