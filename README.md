@@ -7,8 +7,6 @@ and the order of implementing new features.
 [![Build Status](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/main-branch/ruby_git/actions/workflows/continuous_integration.yml)
 [![Documentation](https://img.shields.io/badge/Documentation-Latest-green)](https://rubydoc.info/gems/ruby_git/)
 [![Change Log](https://img.shields.io/badge/CHANGELOG-Latest-green)](https://rubydoc.info/gems/ruby_git/file/CHANGELOG.md)
-[![Maintainability](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/maintainability)](https://codeclimate.com/github/main-branch/ruby_git/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/5403e4613b7518f70da7/test_coverage)](https://codeclimate.com/github/main-branch/ruby_git/test_coverage)
 [![Slack](https://img.shields.io/badge/slack-main--branch/ruby__git-yellow.svg?logo=slack)](https://main-branch.slack.com/archives/C01CHR7TMM2)
 
 Git Is Hard™ but it doesn't have to be that way. Git has this reputation because it has an
