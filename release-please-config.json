@@ -1,0 +1,22 @@
+{
+  "bootstrap-sha": "b03a7aebb563e4a25eca7f664dd39c7a0595eb61",
+  "packages": {
+    ".": {
+      "release-type": "ruby",
+      "package-name": "ruby_git",
+      "changelog-path": "CHANGELOG.md",
+      "version-file": "lib/ruby_git/version.rb",
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": true,
+      "draft": false,
+      "prerelease": false,
+      "include-component-in-tag": false
+    }
+  },
+  "plugins": [
+    {
+      "type": "sentence-case"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+}
