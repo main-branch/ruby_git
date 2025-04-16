@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.3.2](https://github.com/main-branch/ruby_git/compare/v0.3.1...v0.3.2) (2025-04-16)
+
+
+### Bug Fixes
+
+* Automate commit-to-publish workflow ([9850fed](https://github.com/main-branch/ruby_git/commit/9850fed2230f154eaf6319644d0e6b40c5352e7f))
+
 ## v0.3.1 (2025-03-28)
 
 [Full Changelog](https://github.com/main-branch/ruby_git/compare/v0.3.0..v0.3.1)
