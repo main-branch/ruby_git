@@ -1,5 +1,36 @@
 # Change Log
 
+## [0.3.5](https://github.com/main-branch/ruby_git/compare/v0.3.4...v0.3.5) (2025-04-17)
+
+
+### Features
+
+* Add initial_branch option to RubyGit::Worktree.init ([9f5e8da](https://github.com/main-branch/ruby_git/commit/9f5e8daca1599d46c9a53429b24f4fff47f148b6))
+* Add initial_branch option to RubyGit.init ([c0007e5](https://github.com/main-branch/ruby_git/commit/c0007e501c2768e921c1aef618c8edb4969e5e95))
+
+
+### Bug Fixes
+
+* Automate commit-to-publish workflow ([9850fed](https://github.com/main-branch/ruby_git/commit/9850fed2230f154eaf6319644d0e6b40c5352e7f))
+* Do not trigger build workflows after merging to main or for release PRs ([0678dd3](https://github.com/main-branch/ruby_git/commit/0678dd347235aaa9f55d84853de94d01935f974d))
+* Move unneeded builds from continuous_integration to experimental_ruby_builds ([2d15e1c](https://github.com/main-branch/ruby_git/commit/2d15e1c7aef848e4d3cc857e6f606a0f68d7bf6f))
+* Rewrap any errors raised by Process.spawn in RubyGit::SpawnError ([1ed4444](https://github.com/main-branch/ruby_git/commit/1ed4444c12ff1598af8915eac0c568bbaa865c84))
+* Update changelog sections in release-please-config ([b34078a](https://github.com/main-branch/ruby_git/commit/b34078add703edf32d128efd64c12c45edffd21b))
+
+
+### Other Changes
+
+* Create release PR as draft and change release PR title ([aa39ed9](https://github.com/main-branch/ruby_git/commit/aa39ed95191a0678b8916b010b9abf6e99d94372))
+* Fix JSON syntax error in release-please config ([165f3c1](https://github.com/main-branch/ruby_git/commit/165f3c1cd57a0fbdc98631b880095239b84423d6))
+* **main:** Release 0.3.2 ([ae04872](https://github.com/main-branch/ruby_git/commit/ae04872fc4f7e4e6f8d374cb745f8fa0ba4acb5a))
+* **main:** Release 0.3.3 ([bc0b3e5](https://github.com/main-branch/ruby_git/commit/bc0b3e5e538974b4a3e3ec33449453842cbd50d7))
+* Make path normalization for Worktree and Repository optional ([c8b07f6](https://github.com/main-branch/ruby_git/commit/c8b07f6580df7894a45e6b3f9fb54f3a2725f218))
+* Move option validators to their own module ([e5107f9](https://github.com/main-branch/ruby_git/commit/e5107f93fb12d2d56ed618217f3e362afce4adaf))
+* Release v0.3.4 ([6dc79dd](https://github.com/main-branch/ruby_git/commit/6dc79dddec7f316a8cd10df05dd14d320aaee77e))
+* Remove Code Climate integration ([fbb9dd7](https://github.com/main-branch/ruby_git/commit/fbb9dd75f358d35f04282eb2ee87e76f2a354762))
+* Revert changes to make path normalization optional ([aa56519](https://github.com/main-branch/ruby_git/commit/aa56519051c32e7a5e5ec2361a02ef3d985e876e))
+* Update to latest version of process_executer which has fixes ([71a0151](https://github.com/main-branch/ruby_git/commit/71a0151a1d5512fc46e5e00adec7185f89cd2ec9))
+
 ## [0.3.4](https://github.com/main-branch/ruby_git/compare/v0.3.3...v0.3.4) (2025-04-17)
 
 
