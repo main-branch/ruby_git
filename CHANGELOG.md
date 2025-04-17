@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.3.3](https://github.com/main-branch/ruby_git/compare/v0.3.2...v0.3.3) (2025-04-17)
+
+
+### Bug Fixes
+
+* Do not trigger build workflows after merging to main or for release PRs ([0678dd3](https://github.com/main-branch/ruby_git/commit/0678dd347235aaa9f55d84853de94d01935f974d))
+* Move unneeded builds from continuous_integration to experimental_ruby_builds ([2d15e1c](https://github.com/main-branch/ruby_git/commit/2d15e1c7aef848e4d3cc857e6f606a0f68d7bf6f))
+
 ## [0.3.2](https://github.com/main-branch/ruby_git/compare/v0.3.1...v0.3.2) (2025-04-16)
 
 
