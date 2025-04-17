@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.3.7](https://github.com/main-branch/ruby_git/compare/v0.3.6...v0.3.7) (2025-04-17)
+
+
+### Other Changes
+
+* Configure release-please to includes all changes in the CHANGELOG ([7b08f32](https://github.com/main-branch/ruby_git/commit/7b08f320a0968bae33aa5cd80d15b8a3cd598cc0))
+
 ## [0.3.6](https://github.com/main-branch/ruby_git/compare/v0.3.5...v0.3.6) (2025-04-17)
 
 
