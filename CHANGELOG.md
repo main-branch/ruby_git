@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.3.6](https://github.com/main-branch/ruby_git/compare/v0.3.5...v0.3.6) (2025-04-17)
+
+
+### Bug Fixes
+
+* Tell release-please create release PRs as a normal PR instead of a draft ([933cf37](https://github.com/main-branch/ruby_git/commit/933cf37aa3eff213c872831e8931d6eac72eba17))
+
+
+### Other Changes
+
+* Reformat .commitlintrc.yml to be consistent with other projects ([f4f91d3](https://github.com/main-branch/ruby_git/commit/f4f91d38dc5315eddb4dea1fbf6bc71ba065488d))
+
 ## [0.3.5](https://github.com/main-branch/ruby_git/compare/v0.3.4...v0.3.5) (2025-04-17)
 
 
