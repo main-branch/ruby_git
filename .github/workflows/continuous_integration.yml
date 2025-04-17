@@ -1,9 +1,6 @@
 name: Continuous Integration
 
 on:
-  push:
-    branches: [main]
-
   pull_request:
     branches: [main]
 
@@ -25,6 +22,10 @@ env:
 jobs:
   build:
     name: Ruby ${{ matrix.ruby }} on ${{ matrix.operating-system }}
+
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && !startsWith(github.event.pull_request.head.ref, 'release-please--'))
 
     runs-on: ${{ matrix.operating-system }}
     continue-on-error: true
