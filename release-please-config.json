@@ -8,7 +8,7 @@
       "version-file": "lib/ruby_git/version.rb",
       "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true,
-      "draft": true,
+      "draft": false,
       "prerelease": false,
       "include-component-in-tag": false,
       "pull-request-title-pattern": "chore: release v${version}",
