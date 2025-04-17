@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.3.4](https://github.com/main-branch/ruby_git/compare/v0.3.3...v0.3.4) (2025-04-17)
+
+
+### Features
+
+* Add initial_branch option to RubyGit::Worktree.init ([9f5e8da](https://github.com/main-branch/ruby_git/commit/9f5e8daca1599d46c9a53429b24f4fff47f148b6))
+* Add initial_branch option to RubyGit.init ([c0007e5](https://github.com/main-branch/ruby_git/commit/c0007e501c2768e921c1aef618c8edb4969e5e95))
+
+
+### Bug Fixes
+
+* Rewrap any errors raised by Process.spawn in RubyGit::SpawnError ([1ed4444](https://github.com/main-branch/ruby_git/commit/1ed4444c12ff1598af8915eac0c568bbaa865c84))
+
 ## [0.3.3](https://github.com/main-branch/ruby_git/compare/v0.3.2...v0.3.3) (2025-04-17)
 
 
