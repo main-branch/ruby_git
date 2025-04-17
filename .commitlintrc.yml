@@ -4,30 +4,17 @@ extends: '@commitlint/config-conventional'
 rules:
   # See: https://commitlint.js.org/reference/rules.html
   #
-  # Rules are made up by a name and a configuration array. The configuration array contains:
+  # Rules are made up by a name and a configuration array. The configuration
+  # array contains:
   #
-  # * Severity [0..2]: 0 disable rule, 1 warning if violated, or 2 error if violated
+  # * Severity [0..2]: 0 disable rule, 1 warning if violated, or 2 error if
+  #   violated
   # * Applicability [always|never]: never inverts the rule
-  # * Value: value to use for this rule
+  # * Value: value to use for this rule (if applicable)
   #
-  # Run `npx commitlint --print-config` to see the current setting for all rules.
+  # Run `npx commitlint --print-config` to see the current setting for all
+  # rules.
   #
-  body-leading-blank:    [2, 'always']
-  footer-leading-blank:  [2, 'always']
-  type-enum: [
-    2,
-    'always',
-    [
-      'build',
-      'ci',
-      'chore',
-      'docs',
-      'feat',
-      'fix',
-      'perf',
-      'refactor',
-      'revert',
-      'style',
-      'test'
-    ]
-  ]
+  body-leading-blank:    [2, always]
+  footer-leading-blank:  [2, always]
+  type-enum:             [2, always, [build, ci, chore, docs, feat, fix, perf, refactor, revert, style, test]]
