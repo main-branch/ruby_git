@@ -29,7 +29,7 @@ module RubyGit
     # @see https://git-scm.com/docs/git-init git-init
     #
     # @example
-    #   worktree = Worktree.init(worktree_path)
+    #   worktree = Worktree.init(worktree_path, initial_branch: 'main')
     #
     # @param worktree_path [String] the root path of a Git working tree
     # @param initial_branch [String] the initial branch in the newly created repository

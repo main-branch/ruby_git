@@ -80,16 +80,17 @@ module RubyGit
   # @see https://git-scm.com/docs/git-init git-init
   #
   # @example
-  #   worktree = Worktree.init(worktree_path)
+  #   worktree = Worktree.init(worktree_path, initial_branch: 'main')
   #
-  # @param [String] worktree_path the root path of a worktree
+  # @param worktree_path [String] the root path of a worktree
+  # @param initial_branch [String] the initial branch in the newly created repository
   #
   # @raise [RubyGit::Error] if worktree_path is not a directory
   #
   # @return [RubyGit::Worktree] the worktree whose root is at `path`
   #
-  def self.init(worktree_path)
-    RubyGit::Worktree.init(worktree_path)
+  def self.init(worktree_path, initial_branch:)
+    RubyGit::Worktree.init(worktree_path, initial_branch:)
   end
 
   # Open an existing Git working tree that contains worktree_path
