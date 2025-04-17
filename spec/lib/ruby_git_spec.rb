@@ -40,12 +40,13 @@ RSpec.describe RubyGit do
   end
 
   describe '.init' do
+    subject { RubyGit.init(worktree_path, initial_branch:) }
     let(:worktree_path) { '/Users/jsmith/my_project' }
-    subject { RubyGit.init(worktree_path) }
+    let(:initial_branch) { 'xxx' }
     it 'should call RubyGit::Worktree.init with the same arguments' do
       worktree_class = class_double('RubyGit::Worktree')
       stub_const('RubyGit::Worktree', worktree_class)
-      expect(worktree_class).to receive(:init).with(worktree_path)
+      expect(worktree_class).to receive(:init).with(worktree_path, initial_branch:)
       subject
     end
   end
