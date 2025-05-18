@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'ruby_git/command_line'
-require_relative 'ruby_git/encoding_normalizer'
 require_relative 'ruby_git/errors'
 require_relative 'ruby_git/option_validators'
 require_relative 'ruby_git/repository'

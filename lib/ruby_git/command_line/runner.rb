@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'encoding_normalizer'
 require_relative 'result'
+
 require 'ruby_git/errors'
 
 module RubyGit
@@ -303,7 +305,7 @@ module RubyGit
 
         output =
           if result.options.normalize_encoding
-            output.lines.map { |l| RubyGit::EncodingNormalizer.normalize(l) }.join
+            output.lines.map { |l| EncodingNormalizer.normalize(l) }.join
           else
             output.dup
           end
