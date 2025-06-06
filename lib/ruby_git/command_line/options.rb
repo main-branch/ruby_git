@@ -9,13 +9,11 @@ module RubyGit
     #
     # @api public
     #
-    class Options < ProcessExecuter::Options::RunOptions
+    class Options < ProcessExecuter::Options::RunWithCaptureOptions
       # Alias for brevity
       OptionDefinition = ProcessExecuter::Options::OptionDefinition
 
       private
-
-      # :nocov: SimpleCov on JRuby reports the last with the last argument line is not covered
 
       # The options allowed for objects of this class
       # @return [Array<OptionDefinition>]
@@ -24,25 +22,24 @@ module RubyGit
         [
           *super,
           OptionDefinition.new(:normalize_encoding, default: false, validator: method(:validate_normalize_encoding)),
-          OptionDefinition.new(:chomp, default: false, validator: method(:validate_chomp)),
-          OptionDefinition.new(:raise_git_errors, default: true, validator: method(:validate_raise_git_errors))
+          OptionDefinition.new(:chomp, default: false, validator: method(:validate_chomp))
         ].freeze
       end
-      # :nocov:
 
-      # Validate the raise_git_errors option value
-      # @return [String, nil] the error message if the value is not valid
+      # Wrap ProcessExecuter::ArgumentError in a RubyGit::ArgumentError
+      # @return [void]
+      # @raise [RubyGit::ArgumentError] if the options are invalid
       # @api private
-      def validate_raise_git_errors
-        return if [true, false].include?(raise_git_errors)
-
-        errors << "raise_git_errors must be true or false but was #{raise_git_errors.inspect}"
+      def validate_options
+        super
+      rescue ProcessExecuter::ArgumentError => e
+        raise RubyGit::ArgumentError, e.message, cause: e
       end
 
       # Validate the normalize_encoding option value
       # @return [String, nil] the error message if the value is not valid
       # @api private
-      def validate_normalize_encoding
+      def validate_normalize_encoding(_key, _value)
         return if [true, false].include?(normalize_encoding)
 
         errors << "normalize_encoding must be true or false but was #{normalize_encoding.inspect}"
@@ -51,7 +48,7 @@ module RubyGit
       # Validate the chomp option value
       # @return [String, nil] the error message if the value is not valid
       # @api private
-      def validate_chomp
+      def validate_chomp(_key, _value)
         return if [true, false].include?(chomp)
 
         errors << "chomp must be true or false but was #{chomp.inspect}"

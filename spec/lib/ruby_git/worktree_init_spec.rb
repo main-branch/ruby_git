@@ -112,11 +112,10 @@ RSpec.describe RubyGit::Worktree do
         context 'when not a string' do
           let(:initial_branch) { 123 }
 
-          it 'should raise an ArgumentError' do
-            expect { subject }.to(
-              raise_error(ArgumentError, %(The 'initial_branch:' option must be a String or nil but was 123))
-            )
-          end
+          it_behaves_like(
+            'it raises a RubyGit::ArgumentError',
+            %(The 'initial_branch:' option must be a String or nil but was 123)
+          )
         end
       end
     end

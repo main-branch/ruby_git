@@ -2,7 +2,7 @@
 
 RSpec.describe RubyGit::CommandLine::Result do
   let(:result) { described_class.new(process_executer_result) }
-  let(:process_executer_result) { ProcessExecuter.run(*command, **options) }
+  let(:process_executer_result) { ProcessExecuter.run_with_capture(*command, **options) }
   let(:command) { ruby_command <<~RUBY }
     STDOUT.puts 'stdout message'
     STDERR.puts 'stderr message'
@@ -60,7 +60,7 @@ RSpec.describe RubyGit::CommandLine::Result do
 
     context 'when #process_stdout HAS been called' do
       it 'should return the original stdout' do
-        result.process_stdout { |s, _r| s.upcase! }
+        result.process_stdout { |s, _r| s.upcase }
         expect(result.unprocessed_stdout).to eq("stdout message#{eol}")
       end
     end
@@ -119,7 +119,7 @@ RSpec.describe RubyGit::CommandLine::Result do
 
     context 'when #process_stderr HAS been called' do
       it 'should return the original stderr' do
-        result.process_stderr { |s, _r| s.upcase! }
+        result.process_stderr { |s, _r| s.upcase }
         expect(result.unprocessed_stderr.with_linux_eol).to eq("stderr message\n")
       end
     end

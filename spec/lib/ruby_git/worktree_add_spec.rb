@@ -79,7 +79,8 @@ RSpec.describe RubyGit::Worktree do
           let(:pathspecs) { [] }
           let(:options) { { all: 'invalid' } }
 
-          it_behaves_like 'it raises an ArgumentError', %(The 'all:' option must be a Boolean value but was "invalid")
+          it_behaves_like 'it raises a RubyGit::ArgumentError',
+                          %(The 'all:' option must be a Boolean value but was "invalid")
         end
       end
 
@@ -103,7 +104,7 @@ RSpec.describe RubyGit::Worktree do
           let(:options) { { force: 'invalid' } }
 
           it_behaves_like(
-            'it raises an ArgumentError',
+            'it raises a RubyGit::ArgumentError',
             %(The 'force:' option must be a Boolean value but was "invalid")
           )
         end
@@ -129,7 +130,7 @@ RSpec.describe RubyGit::Worktree do
           let(:options) { { update: 'invalid' } }
 
           it_behaves_like(
-            'it raises an ArgumentError',
+            'it raises a RubyGit::ArgumentError',
             %(The 'update:' option must be a Boolean value but was "invalid")
           )
         end
@@ -155,7 +156,7 @@ RSpec.describe RubyGit::Worktree do
           let(:options) { { refresh: 'invalid' } }
 
           it_behaves_like(
-            'it raises an ArgumentError',
+            'it raises a RubyGit::ArgumentError',
             %(The 'refresh:' option must be a Boolean value but was "invalid")
           )
         end

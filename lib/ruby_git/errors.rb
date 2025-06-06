@@ -16,6 +16,7 @@ module RubyGit
   # ```text
   # StandardError
   # └─> RubyGit::Error
+  #     ├─> RubyGit::ArgumentError
   #     ├─> RubyGit::CommandLineError
   #     │   ├─> RubyGit::FailedError
   #     │   └─> RubyGit::SignaledError
@@ -28,6 +29,7 @@ module RubyGit
   # | Error Class | Description |
   # | --- | --- |
   # | `Error` | This catch-all error serves as the base class for other custom errors raised by the git gem. |
+  # | `ArgumentError` | Raised when an invalid argument is passed to a method. |
   # | `CommandLineError` | A subclass of this error is raised when there is a problem executing the git command line. |
   # | `FailedError` | This error is raised when the git command line exits with a non-zero status code that is not expected by the git gem. |
   # | `SignaledError` | This error is raised when the git command line is terminated as a result of receiving a signal. This could happen if the process is forcibly terminated or if there is a serious system error. |
@@ -65,6 +67,19 @@ module RubyGit
   class Error < StandardError; end
 
   # rubocop:enable Layout/LineLength
+
+  # Raised when an invalid argument is passed to a method
+  #
+  # @example Raising RubyGit::ArgumentError due to invalid option value
+  #   begin
+  #     RubyGit::CommandLine.run('status', timeout_after: 'not_a_number')
+  #   rescue RubyGit::ArgumentError => e
+  #     e.message #=> 'timeout_after must be nil or a non-negative real number but was "not_a_number"'
+  #   end
+  #
+  # @api public
+  #
+  class ArgumentError < RubyGit::Error; end
 
   # Raised when a git command fails or exits because of an uncaught signal
   #

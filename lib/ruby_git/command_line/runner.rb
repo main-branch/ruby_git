@@ -154,7 +154,7 @@ module RubyGit
       #
       # @return [RubyGit::CommandLine::Result] the result of the command
       #
-      # @raise [ArgumentError] if `args` or `options_hash` are not valid
+      # @raise [RubyGit::ArgumentError] if `args` or `options_hash` are not valid
       #
       # @raise [RubyGit::FailedError] if the command returned a non-zero exitstatus
       #
@@ -165,17 +165,26 @@ module RubyGit
       # @raise [RubyGit::ProcessIOError] if an exception was raised while collecting subprocess output
       #
       def call(*args, **options_hash)
-        options_hash[:raise_errors] = false
         options = RubyGit::CommandLine::Options.new(logger: logger, **options_hash)
-        begin
-          result = run_with_chdir([env, *build_git_cmd(args)], options)
-        rescue ProcessExecuter::ProcessIOError => e
-          raise RubyGit::ProcessIOError.new(e.message), cause: e.exception.cause
-        end
-        process_result(result)
+        result = run(*args, options)
+        process_result(result, options)
       end
 
       private
+
+      # Run the git command with the given arguments and options
+      # @return [ProcessExecuter::ResultWithCapture] the result of the command
+      # @api private
+      def run(*args, options)
+        # We don't want ProcessExecuter to raise an error if the command fails, but
+        # we want to preserve the value of the raise_errors option to use in
+        # process_result.
+        options.merge(raise_errors: false).then do |options|
+          run_with_chdir([env, *build_git_cmd(args)], options)
+        rescue ProcessExecuter::ProcessIOError => e
+          raise RubyGit::ProcessIOError.new(e.message), cause: e.exception.cause
+        end
+      end
 
       # Run command with options with special handling for the `chdir` option on JRuby
       #
@@ -185,7 +194,7 @@ module RubyGit
       # @param args [Array<String>] the command to run
       # @param options [RubyGit::CommandLine::Options] the options to pass to `Process.spawn`
       #
-      # @return [ProcessExecuter::Result] the result of the command
+      # @return [ProcessExecuter::ResultWithCapture] the result of the command
       #
       # @api private
       #
@@ -197,7 +206,9 @@ module RubyGit
           Dir.chdir(options.chdir) do
             saved_chdir = options.chdir
             options.merge!(chdir: :not_set)
-            run_and_handle_spawn_error(args, options).tap do
+            begin
+              run_and_handle_spawn_error(args, options)
+            ensure
               options.merge!(chdir: saved_chdir)
             end
           end
@@ -212,14 +223,14 @@ module RubyGit
       # @param args [Array<String>] the command to run
       # @param options [RubyGit::CommandLine::Options] the options to pass to `Process.spawn`
       #
-      # @return [ProcessExecuter::Result] the result of the command
+      # @return [ProcessExecuter::ResultWithCapture] the result of the command
       #
       # @api private
       #
       def run_and_handle_spawn_error(args, options)
-        ProcessExecuter.run_with_options(args, options)
+        ProcessExecuter.run_with_capture(*args, options)
       rescue ProcessExecuter::SpawnError => e
-        raise RubyGit::SpawnError, e.message
+        raise RubyGit::SpawnError, e.message, cause: e
       end
 
       # Returns true if running on JRuby
@@ -230,11 +241,15 @@ module RubyGit
       def jruby? = RUBY_ENGINE == 'jruby'
 
       # Build the git command line from the available sources to send to `Process.spawn`
+      #
+      # @raise [RubyGit::ArgumentError] if the args array contains an array
+      #
       # @return [Array<String>]
+      #
       # @api private
       #
       def build_git_cmd(args)
-        raise ArgumentError, 'The args array can not contain an array' if args.any? { |a| a.is_a?(Array) }
+        raise RubyGit::ArgumentError, 'The args array can not contain an array' if args.any? { |a| a.is_a?(Array) }
 
         [binary_path, *global_options, *args].map(&:to_s)
       end
@@ -250,18 +265,21 @@ module RubyGit
       # @return [RubyGit::CommandLineResult] the result of the command to return to the caller
       #
       # @raise [RubyGit::FailedError] if the command failed
+      #
       # @raise [RubyGit::SignaledError] if the command was signaled
+      #
       # @raise [RubyGit::TimeoutError] if the command times out
+      #
       # @raise [RubyGit::ProcessIOError] if an exception was raised while collecting subprocess output
       #
       # @api private
       #
-      def process_result(result)
+      def process_result(result, options)
         RubyGit::CommandLine::Result.new(result).tap do |processed_result|
-          raise_any_errors(processed_result) if processed_result.options.raise_git_errors
+          raise_any_errors(processed_result) if options.raise_errors
 
-          processed_result.process_stdout { |s, r| process_output(s, r) }
-          processed_result.process_stderr { |s, r| process_output(s, r) }
+          processed_result.process_stdout { |output, result| process_output(output, result) }
+          processed_result.process_stderr { |output, result| process_output(output, result) }
         end
       end
 
