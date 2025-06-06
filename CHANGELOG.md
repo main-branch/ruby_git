@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.4.0](https://github.com/main-branch/ruby_git/compare/v0.3.6...v0.4.0) (2025-06-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* this gem now raises `RubyGit::ArgumentError` where before it raised
+
+### Features
+
+* Upgrade process_executer dependency to 4.x ([86d94cd](https://github.com/main-branch/ruby_git/commit/86d94cd1e4291c99ac910996b0e0c03e2e2d2d3d))
+
+
+### Other Changes
+
+* Configure release-please to includes all changes in the CHANGELOG ([7b08f32](https://github.com/main-branch/ruby_git/commit/7b08f320a0968bae33aa5cd80d15b8a3cd598cc0))
+* Move EncodingNormalizer from RubyGit to RubyGit::CommandLine ([9110533](https://github.com/main-branch/ruby_git/commit/911053333665a6add6a5081737febd8b10cda304))
+
 ## [0.3.6](https://github.com/main-branch/ruby_git/compare/v0.3.5...v0.3.6) (2025-04-17)
 
 
