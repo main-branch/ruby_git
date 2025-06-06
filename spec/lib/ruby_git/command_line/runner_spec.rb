@@ -45,18 +45,18 @@ RSpec.describe RubyGit::CommandLine::Runner do
       logger = Logger.new(nil)
 
       expected_command = [env, binary_path, *global_options, *args]
-      expected_options = { raise_git_errors: false, logger: Logger }
+      expected_options = { raise_errors: false, logger: Logger }
 
       runner = described_class.new(env, binary_path, global_options, logger)
 
       expect(ProcessExecuter).to(
-        receive(:run_with_options).with(
-          expected_command, an_object_having_attributes(**expected_options)
+        receive(:run_with_capture).with(
+          *expected_command, an_object_having_attributes(**expected_options)
         ).and_call_original
       )
 
       runner.call(
-        *args, chomp: true, raise_git_errors: false, out: StringIO.new, err: StringIO.new, logger:
+        *args, chomp: true, raise_errors: false, out: StringIO.new, err: StringIO.new, logger:
       )
     end
 
@@ -64,8 +64,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
     let(:env) { {} }
     let(:binary_path) { 'ruby' }
     let(:global_options) { ['bin/command-line-test'] }
-    let(:options) { { raise_git_errors:, timeout_after:, chomp: } }
-    let(:raise_git_errors) { true }
+    let(:options) { { raise_errors:, timeout_after:, chomp: } }
+    let(:raise_errors) { true }
     let(:timeout_after) { nil }
     let(:chomp) { false }
 
@@ -84,14 +84,14 @@ RSpec.describe RubyGit::CommandLine::Runner do
         }
       end
 
-      context 'when raise_git_errors is true' do
-        let(:raise_git_errors) { true }
+      context 'when raise_errors is true' do
+        let(:raise_errors) { true }
 
         it { is_expected.to have_attributes(expected_result_attributes) }
       end
 
-      context 'when raise_git_errors is false' do
-        let(:raise_git_errors) { false }
+      context 'when raise_errors is false' do
+        let(:raise_errors) { false }
 
         it { is_expected.to have_attributes(expected_result_attributes) }
       end
@@ -110,8 +110,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         }
       end
 
-      context 'when raise_git_errors is true' do
-        let(:raise_git_errors) { true }
+      context 'when raise_errors is true' do
+        let(:raise_errors) { true }
 
         it 'should raise a RubyGit::FailedError' do
           expect { subject }.to raise_error(RubyGit::FailedError) do |e|
@@ -120,8 +120,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         end
       end
 
-      context 'when raise_git_errors is false' do
-        let(:raise_git_errors) { false }
+      context 'when raise_errors is false' do
+        let(:raise_errors) { false }
 
         it 'should return a result indicating the failure' do
           expect(subject).to have_attributes(expected_result_attributes)
@@ -142,8 +142,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         }
       end
 
-      context 'when raise_git_errors is true' do
-        let(:raise_git_errors) { true }
+      context 'when raise_errors is true' do
+        let(:raise_errors) { true }
 
         it 'should raise a RubyGit::SignaledError' do
           expect { subject }.to raise_error(RubyGit::SignaledError) do |e|
@@ -152,8 +152,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         end
       end
 
-      context 'when raise_git_errors is false' do
-        let(:raise_git_errors) { false }
+      context 'when raise_errors is false' do
+        let(:raise_errors) { false }
 
         it 'should return a result indicating the signal' do
           expect(subject).to have_attributes(expected_result_attributes)
@@ -183,8 +183,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
       end
       # :nocov:
 
-      context 'when raise_git_errors is true' do
-        let(:raise_git_errors) { true }
+      context 'when raise_errors is true' do
+        let(:raise_errors) { true }
         let(:timeout_after) { 0.05 }
 
         it 'should raise a RubyGit::SignaledError' do
@@ -194,8 +194,8 @@ RSpec.describe RubyGit::CommandLine::Runner do
         end
       end
 
-      context 'when raise_git_errors is false' do
-        let(:raise_git_errors) { false }
+      context 'when raise_errors is false' do
+        let(:raise_errors) { false }
         let(:timeout_after) { 0.05 }
 
         it 'should return a result indicating the signal' do
@@ -234,7 +234,7 @@ RSpec.describe RubyGit::CommandLine::Runner do
     end
 
     describe 'encoding normalization of output' do
-      let(:options) { { out: StringIO.new, err: StringIO.new, normalize_encoding: } }
+      let(:options) { { normalize_encoding: } }
 
       let(:expected_non_normalized_output) do
         String.new(
@@ -243,7 +243,7 @@ RSpec.describe RubyGit::CommandLine::Runner do
           "\xCD\xEF \xE8\xF1\xE2\xE1\xED\xE9\xF4\xE1\xF3\n" \
           "\xD6\xE5\xE8\xE3\xE9\xE1\xF4 \xE8\xF1\xE2\xE1\xED\xE9\xF4\xE1\xF3 " \
           "\xF1\xE5\xF0\xF1\xE9\xEC\xE9q\xE8\xE5\n"
-        ).force_encoding('ASCII-8BIT')
+        ).force_encoding(Encoding.default_external)
       end
 
       let(:expected_normalized_output) { <<~OUTPUT }
@@ -288,18 +288,18 @@ RSpec.describe RubyGit::CommandLine::Runner do
         end.new
       end
 
-      let(:options) { { raise_git_errors:, out: } }
+      let(:options) { { raise_errors:, out: } }
 
-      context 'when :raise_git_errors is true' do
-        let(:raise_git_errors) { true }
+      context 'when :raise_errors is true' do
+        let(:raise_errors) { true }
 
         it 'should raise a RubyGit::ProcessIOError' do
           expect { subject }.to raise_error(RubyGit::ProcessIOError)
         end
       end
 
-      context 'when :raise_git_errors is false' do
-        let(:raise_git_errors) { false }
+      context 'when :raise_errors is false' do
+        let(:raise_errors) { false }
 
         it 'should raise a RubyGit::ProcessIOError (even if told not to raise errors)' do
           expect { subject }.to raise_error(RubyGit::ProcessIOError)

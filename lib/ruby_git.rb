@@ -160,9 +160,7 @@ module RubyGit
   #   or git was not found on the path.
   #
   def self.binary_version
-    command = %w[version]
-    options = { out: StringIO.new, err: StringIO.new }
-    version_string = RubyGit::CommandLine.run(*command, **options).stdout[/\d+\.\d+(\.\d+)+/]
+    version_string = RubyGit::CommandLine.run('version').stdout[/\d+\.\d+(\.\d+)+/]
     version_string.split('.').collect(&:to_i)
   end
 end

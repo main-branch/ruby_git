@@ -79,7 +79,7 @@ RSpec.describe RubyGit do
       let(:git_version_string) { 'git version 10.11.12' }
       let(:result) { double(RubyGit::CommandLine::Result, stdout: git_version_string) }
       it 'should return [10, 11, 12]' do
-        expect(RubyGit::CommandLine).to receive(:run).with('version', Hash).and_return(result)
+        expect(RubyGit::CommandLine).to receive(:run).with('version').and_return(result)
         expect(subject).to eq([10, 11, 12])
       end
     end

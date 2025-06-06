@@ -53,7 +53,7 @@ end
 
 def run(*command)
   command = command[0] if command.size == 1 && command[0].is_a?(Array)
-  ProcessExecuter.run(*command, out: StringIO.new, err: StringIO.new)
+  ProcessExecuter.run_with_capture(*command)
 end
 
 def status_output
@@ -195,13 +195,13 @@ RSpec.shared_examples 'it runs the git command' do |command, options = Hash|
   end
 end
 
-RSpec.shared_examples 'it raises an ArgumentError' do |message|
-  it 'should raise an Argument' do
+RSpec.shared_examples 'it raises a RubyGit::ArgumentError' do |message|
+  it 'should raise an RubyGit::ArgumentError' do
     allow_any_instance_of(described_class).to(
       receive(:normalize_path) { |_, path| path }
     )
 
-    expect { subject }.to(raise_error(ArgumentError, message))
+    expect { subject }.to(raise_error(RubyGit::ArgumentError, message))
   end
 end
 

@@ -12,7 +12,7 @@ RSpec.describe RubyGit::Worktree do
       let(:worktree_path) { tmpdir }
       before { FileUtils.rmdir(worktree_path) }
       it 'should  raise ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError)
+        expect { subject }.to raise_error(RubyGit::ArgumentError)
       end
     end
 
@@ -23,14 +23,14 @@ RSpec.describe RubyGit::Worktree do
         FileUtils.touch(worktree_path)
       end
       it 'should raise ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError)
+        expect { subject }.to raise_error(RubyGit::ArgumentError)
       end
     end
 
     context 'when worktree_path exists but is not a git working tree' do
       let(:worktree_path) { tmpdir }
       it 'should raise ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError, /not a git repository/)
+        expect { subject }.to raise_error(RubyGit::ArgumentError, /not a git repository/)
       end
     end
 

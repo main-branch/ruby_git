@@ -7,27 +7,30 @@ module RubyGit
   module CommandLine
     # The result of running a git command
     #
-    # Adds stdout and stderr processing to the `ProcessExecuter::Result` class.
+    # Adds stdout and stderr processing to the `ProcessExecuter::ResultWithCapture` class.
     #
     # @api public
     #
     class Result < SimpleDelegator
       # @!method initialize(result)
       #   Initialize a new result object
+      #
       #   @example
-      #     result = ProcessExecuter.run('echo hello')
+      #     result = Git::CommandLine.run_with_capture('git', 'status')
       #     RubyGit::CommandLine::Result.new(result)
-      #   @param [ProcessExecuter::Result] result The result of running the command
+      #
+      #   @param [ProcessExecuter::ResultWithCapture] result The result of running the command
+      #
       #   @return [RubyGit::CommandLine::Result]
+      #
       #   @api public
 
       # Return the processed stdout output (or original if it was not processed)
       #
-      # This output is only returned if a stdout redirection is a
-      # `ProcessExecuter::MonitoredPipe`.
-      #
       # @example
-      #   result = ProcessExecuter.run('echo hello': out: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello')
+      #   )
       #   result.stdout #=> "hello\n"
       #
       # @return [String, nil]
@@ -39,20 +42,25 @@ module RubyGit
       # Process the captured stdout output
       #
       # @example
-      #   result = ProcessExecuter.run('echo hello', out: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello')
+      #   )
       #   result.stdout #=> "hello\n"
       #   result.process_stdout { |stdout, _result| stdout.upcase }
       #   result.stdout #=> "HELLO\n"
       #   result.unprocessed_stdout #=> "hello\n"
       #
       # @example Chain processing
-      #   result = ProcessExecuter.run('echo hello', out: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello')
+      #   )
       #   result.stdout #=> "hello\n"
+      #   # Here is the chain processing:
       #   result.process_stdout { |s| s.upcase }.process_stdout { |s| s.reverse }
       #   result.stdout #=> "OLLEH\n"
       #   result.unprocessed_stdout #=> "hello\n"
       #
-      # @return [String, nil]
+      # @return [self]
       #
       # @yield [stdout, result] Yields the stdout output and the result object
       # @yieldparam stdout [String] The output to process
@@ -62,16 +70,19 @@ module RubyGit
       # @api public
       #
       def process_stdout(&block)
-        return if block.nil?
+        return self if block.nil?
 
         @processed_stdout = block.call(stdout, self)
+
         self
       end
 
       # Returns the original stdout output before it was processed
       #
       # @example
-      #   result = ProcessExecuter.run('echo hello', out: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello')
+      #   )
       #   result.stdout #=> "hello\n"
       #   result.unprocessed_stdout #=> "hello\n"
       #   result.process_stdout { |s| s.upcase }
@@ -92,7 +103,9 @@ module RubyGit
       # `ProcessExecuter::MonitoredPipe`.
       #
       # @example
-      #   result = ProcessExecuter.run('echo hello 1>&2': err: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello >&2')
+      #   )
       #   result.stderr #=> "hello\n"
       #
       # @return [String, nil]
@@ -104,20 +117,25 @@ module RubyGit
       # Process the captured stderr output
       #
       # @example
-      #   result = ProcessExecuter.run('echo hello 1>&2', err: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello >&2')
+      #   )
       #   result.stderr #=> "hello\n"
       #   result.process_stderr { |stderr, _result| stderr.upcase }
       #   result.stderr #=> "HELLO\n"
       #   result.unprocessed_stderr #=> "hello\n"
       #
       # @example Chain processing
-      #   result = ProcessExecuter.run('echo hello 1>&2', err: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello >&2')
+      #   )
       #   result.stderr #=> "hello\n"
+      #   # Here is the chain processing:
       #   result.process_stderr { |s| s.upcase }.process_stderr { |s| s.reverse }
       #   result.stderr #=> "OLLEH\n"
       #   result.unprocessed_stderr #=> "hello\n"
       #
-      # @return [String, nil]
+      # @return [self]
       #
       # @yield [stderr, result] Yields the stderr output and the result object
       # @yieldparam stderr [String] The output to process
@@ -127,16 +145,19 @@ module RubyGit
       # @api public
       #
       def process_stderr(&block)
-        return if block.nil?
+        return self if block.nil?
 
         @processed_stderr = block.call(stderr, self)
+
         self
       end
 
       # Returns the original stderr output before it was processed
       #
       # @example
-      #   result = ProcessExecuter.run('echo hello 1>&2', err: StringIO.new)
+      #   result = RubyGit::CommandLine::Result.new(
+      #     ProcessExecuter.run_with_capture('echo hello >&2')
+      #   )
       #   result.stderr #=> "hello\n"
       #   result.unprocessed_stderr #=> "hello\n"
       #   result.process_stderr { |stderr| stderr.upcase }
